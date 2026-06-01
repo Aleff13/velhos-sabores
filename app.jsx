@@ -1,6 +1,8 @@
 // app.jsx — Velhos Sabores: routing + palette tweaks
 const { useState: useS, useEffect: useE } = React;
 
+const SECRET_ROUTE = '#studio';
+
 const PALETTES = {
   forno:  { label: 'Forno & Trigo',     sw: ['#B5613A', '#6E7A4F', '#F3E7D2'] },
   geleia: { label: 'Geleia & Canela',   sw: ['#A8324A', '#D99A4E', '#F6ECDD'] },
@@ -15,20 +17,33 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const [page, setPage] = useS('home');
+  const [page, setPage] = useS(() =>
+    window.location.hash === SECRET_ROUTE ? 'studio' : 'home'
+  );
   const [focusId, setFocusId] = useS(null);
 
   // apply palette + grain to <html>
   useE(() => {
+    if (page === 'studio') return;
     document.documentElement.setAttribute('data-palette', t.palette || 'forno');
     document.documentElement.style.setProperty('--grain-opacity', t.grain ? '0.5' : '0');
-  }, [t.palette, t.grain]);
+  }, [t.palette, t.grain, page]);
 
   const go = (p, fid = null) => {
     setPage(p);
     setFocusId(fid);
     if (p !== 'produtos' || !fid) window.scrollTo({ top: 0, behavior: 'auto' });
   };
+
+  if (page === 'studio') {
+    return (
+      <iframe
+        src="instagram-generator.html"
+        style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', border: 'none' }}
+        title="Studio"
+      />
+    );
+  }
 
   return (
     <React.Fragment>

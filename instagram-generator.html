@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Posts · Velhos Sabores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --u-bg:      #13100e;
+      --u-surface: #1d1915;
+      --u-s2:      #261f1a;
+      --u-border:  rgba(255,255,255,.08);
+      --u-text:    #e0d5cb;
+      --u-muted:   #927f70;
+      --u-accent:  #B5613A;
+      --u-accent-d:#8f4c2e;
+    }
+
+    html, body { height: 100%; font-family: 'Hanken Grotesk', system-ui, sans-serif; background: var(--u-bg); color: var(--u-text); font-size: 14px; }
+
+    body {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      grid-template-rows: 50px 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Header ── */
+    .hdr {
+      grid-column: 1 / -1;
+      background: var(--u-surface);
+      border-bottom: 1px solid var(--u-border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 12px;
+    }
+    .hdr-brand { display: flex; align-items: center; gap: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 15px; }
+    .hdr-sep   { color: var(--u-border); font-size: 20px; }
+    .hdr-tool  { font-size: 13px; color: var(--u-muted); }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--u-surface);
+      border-right: 1px solid var(--u-border);
+      overflow-y: auto;
+      padding: 18px 15px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sec-title {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--u-muted); padding-bottom: 9px; border-bottom: 1px solid var(--u-border); margin-bottom: 2px;
+    }
+
+    /* Template grid */
+    .tpl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+    .tpl-btn {
+      background: var(--u-s2); border: 1.5px solid var(--u-border); border-radius: 8px;
+      padding: 7px; cursor: pointer; display: flex; flex-direction: column; align-items: center;
+      gap: 5px; transition: border-color .15s;
+    }
+    .tpl-btn:hover { border-color: rgba(181,97,58,.5); }
+    .tpl-btn.sel   { border-color: var(--u-accent); background: rgba(181,97,58,.1); }
+    .tpl-thumb {
+      width: 100%; aspect-ratio: 1; background: rgba(255,255,255,.04); border-radius: 4px;
+      overflow: hidden; padding: 4px; display: flex; flex-direction: column; gap: 2px;
+    }
+    .tl-img { background: rgba(181,97,58,.38); border-radius: 2px; }
+    .tl-txt { background: rgba(255,255,255,.18); border-radius: 1px; height: 4px; }
+    .tl-txt.s { width: 55%; }
+    .tpl-label { font-size: 10px; color: var(--u-muted); }
+
+    /* Palette grid */
+    .pal-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+    .pal-btn  { border: 2px solid transparent; border-radius: 7px; padding: 2px; cursor: pointer; transition: border-color .15s; }
+    .pal-btn.sel { border-color: var(--u-text); }
+    .pal-swatch  { width: 100%; aspect-ratio: 1; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; }
+    .pal-top { flex: 1; }
+    .pal-bot { height: 8px; }
+    .pal-name { font-size: 9px; color: var(--u-muted); text-align: center; margin-top: 3px; display: block; }
+
+    /* Drop zone */
+    .drop-zone {
+      border: 1.5px dashed var(--u-border); border-radius: 10px; padding: 16px;
+      cursor: pointer; position: relative; text-align: center; transition: border-color .15s, background .15s;
+    }
+    .drop-zone:hover, .drop-zone.over { border-color: var(--u-accent); background: rgba(181,97,58,.05); }
+    .drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .drop-icon  { font-size: 22px; margin-bottom: 5px; }
+    .drop-hint  { font-size: 11px; color: var(--u-muted); line-height: 1.5; }
+    .drop-prev  { width: 100%; max-height: 100px; object-fit: cover; border-radius: 6px; display: none; margin-top: 8px; }
+    .drop-zone.has-img .drop-icon,
+    .drop-zone.has-img .drop-hint  { display: none; }
+    .drop-zone.has-img              { border-style: solid; border-color: rgba(181,97,58,.5); }
+    .drop-zone.has-img .drop-prev  { display: block; }
+    .drop-chg   { display: none; font-size: 10px; color: var(--u-muted); margin-top: 5px; }
+    .drop-zone.has-img .drop-chg   { display: block; }
+
+    /* Fields */
+    .fields { display: flex; flex-direction: column; gap: 10px; }
+    .field  { display: flex; flex-direction: column; gap: 4px; }
+    .field label { font-size: 11px; color: var(--u-muted); font-weight: 500; }
+    .field input, .field textarea {
+      background: var(--u-s2); border: 1px solid var(--u-border); border-radius: 7px;
+      color: var(--u-text); font-family: inherit; font-size: 13px; padding: 8px 10px;
+      width: 100%; outline: none; resize: vertical; line-height: 1.45; transition: border-color .15s;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--u-accent); }
+    .field textarea { min-height: 56px; }
+
+    /* Format */
+    .fmt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .fmt-btn {
+      background: var(--u-s2); border: 1.5px solid var(--u-border); border-radius: 8px;
+      padding: 10px 8px; cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; gap: 5px; transition: border-color .15s;
+    }
+    .fmt-btn:hover { border-color: rgba(181,97,58,.5); }
+    .fmt-btn.sel   { border-color: var(--u-accent); }
+    .fmt-box { background: rgba(255,255,255,.14); border-radius: 3px; }
+    .fmt-label { font-size: 10px; color: var(--u-muted); }
+
+    /* Download button */
+    .dl-btn {
+      background: var(--u-accent); color: #fff; border: none; border-radius: 9px;
+      padding: 13px 16px; font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center;
+      gap: 8px; transition: background .15s; margin-top: 4px;
+    }
+    .dl-btn:hover    { background: var(--u-accent-d); }
+    .dl-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* Preview */
+    .preview {
+      display: flex; align-items: center; justify-content: center;
+      background: #0e0b09; padding: 32px; overflow: hidden;
+    }
+    #previewWrap { position: relative; box-shadow: 0 8px 40px rgba(0,0,0,.6); }
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-brand">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B5613A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="22" x2="12" y2="8"/>
+      <path d="M12 8c0-2-1.5-3.5-3.5-3.5C8.5 6.5 10 8 12 8Z"/>
+      <path d="M12 8c0-2 1.5-3.5 3.5-3.5C15.5 6.5 14 8 12 8Z"/>
+      <path d="M12 13c0-2-1.5-3.5-3.5-3.5C8.5 11.5 10 13 12 13Z"/>
+      <path d="M12 13c0-2 1.5-3.5 3.5-3.5C15.5 11.5 14 13 12 13Z"/>
+    </svg>
+    Velhos Sabores
+  </div>
+  <span class="hdr-sep">/</span>
+  <span class="hdr-tool">Gerador de Posts · Instagram</span>
+</header>
+
+<aside class="sidebar">
+
+  <div>
+    <p class="sec-title">Template</p>
+    <div class="tpl-grid">
+      <button class="tpl-btn sel" data-tpl="produto" onclick="pick('template','produto',this)">
+        <div class="tpl-thumb">
+          <div class="tl-img" style="flex:1"></div>
+          <div style="display:flex;flex-direction:column;gap:2px;padding:3px 0 1px">
+            <div class="tl-txt s"></div>
+            <div class="tl-txt"></div>
+          </div>
+        </div>
+        <span class="tpl-label">Produto</span>
+      </button>
+      <button class="tpl-btn" data-tpl="banner" onclick="pick('template','banner',this)">
+        <div class="tpl-thumb">
+          <div class="tl-img" style="flex:0 0 42%"></div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:2px;padding:3px 0 1px">
+            <div class="tl-txt s"></div>
+            <div class="tl-txt"></div>
+            <div class="tl-txt s"></div>
+          </div>
+        </div>
+        <span class="tpl-label">Banner</span>
+      </button>
+      <button class="tpl-btn" data-tpl="marca" onclick="pick('template','marca',this)">
+        <div class="tpl-thumb" style="position:relative">
+          <div style="flex:1;display:flex;flex-direction:column;gap:2px;padding:3px 0 1px">
+            <div class="tl-txt s"></div>
+            <div class="tl-txt"></div>
+            <div class="tl-txt s"></div>
+          </div>
+          <div class="tl-img" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%"></div>
+        </div>
+        <span class="tpl-label">Marca</span>
+      </button>
+    </div>
+  </div>
+
+  <div>
+    <p class="sec-title">Paleta de Cores</p>
+    <div class="pal-grid">
+      <div class="pal-btn sel" data-pal="forno" onclick="pick('palette','forno',this)">
+        <div class="pal-swatch"><div class="pal-top" style="background:#F3E7D2"></div><div class="pal-bot" style="background:#B5613A"></div></div>
+        <span class="pal-name">Forno</span>
+      </div>
+      <div class="pal-btn" data-pal="geleia" onclick="pick('palette','geleia',this)">
+        <div class="pal-swatch"><div class="pal-top" style="background:#F6ECDD"></div><div class="pal-bot" style="background:#A8324A"></div></div>
+        <span class="pal-name">Geleia</span>
+      </div>
+      <div class="pal-btn" data-pal="horta" onclick="pick('palette','horta',this)">
+        <div class="pal-swatch"><div class="pal-top" style="background:#EEE6D4"></div><div class="pal-bot" style="background:#4A6140"></div></div>
+        <span class="pal-name">Horta</span>
+      </div>
+      <div class="pal-btn" data-pal="manha" onclick="pick('palette','manha',this)">
+        <div class="pal-swatch"><div class="pal-top" style="background:#F5EBDA"></div><div class="pal-bot" style="background:#C07A38"></div></div>
+        <span class="pal-name">Manhã</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="sec-title">Imagem do Produto</p>
+    <div class="drop-zone" id="dropZone">
+      <input type="file" accept="image/*" id="fileInput" onchange="loadImg(this.files[0])">
+      <div class="drop-icon">🖼</div>
+      <p class="drop-hint">Arraste a foto aqui<br><small>ou clique para selecionar</small></p>
+      <img class="drop-prev" id="dropPrev" src="" alt="">
+      <p class="drop-chg">Clique para trocar a imagem</p>
+    </div>
+  </div>
+
+  <div>
+    <p class="sec-title">Textos</p>
+    <div class="fields">
+      <div class="field">
+        <label>Categoria</label>
+        <input type="text" id="inEyebrow" value="Pão artesanal" oninput="render()">
+      </div>
+      <div class="field">
+        <label>Título</label>
+        <textarea id="inTitle" oninput="render()">Pão de Canela</textarea>
+      </div>
+      <div class="field">
+        <label>Descrição</label>
+        <textarea id="inDesc" oninput="render()">Doce de tarde de domingo</textarea>
+      </div>
+      <div class="field">
+        <label>Badge (opcional)</label>
+        <input type="text" id="inBadge" value="Fermentação natural" oninput="render()">
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="sec-title">Formato</p>
+    <div class="fmt-grid">
+      <button class="fmt-btn sel" data-fmt="square" onclick="pick('format','square',this)">
+        <div class="fmt-box" style="width:30px;height:30px"></div>
+        <span class="fmt-label">Quadrado · 1:1</span>
+      </button>
+      <button class="fmt-btn" data-fmt="portrait" onclick="pick('format','portrait',this)">
+        <div class="fmt-box" style="width:24px;height:30px"></div>
+        <span class="fmt-label">Retrato · 4:5</span>
+      </button>
+    </div>
+  </div>
+
+  <button class="dl-btn" id="dlBtn" onclick="download()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Baixar PNG · 1080px
+  </button>
+
+</aside>
+
+<main class="preview">
+  <div id="previewWrap"></div>
+</main>
+
+<script>
+// ── State ──────────────────────────────────────────────────
+const S = { template: 'produto', palette: 'forno', format: 'square', img: null };
+
+const PALS = {
+  forno:  { paper:'#F3E7D2', paper2:'#ECDCC2', surface:'#FBF4E6', ink:'#36271B', soft:'#6E5A47', primary:'#B5613A', accent:'#6E7A4F', gold:'#CDA15A' },
+  geleia: { paper:'#F6ECDD', paper2:'#F0E0CC', surface:'#FCF5EA', ink:'#3A201F', soft:'#6F4A45', primary:'#A8324A', accent:'#8a5a36', gold:'#D99A4E' },
+  horta:  { paper:'#EEE6D4', paper2:'#E6DBC3', surface:'#F8F2E4', ink:'#2C2A1E', soft:'#5e5a44', primary:'#4A6140', accent:'#8C5A32', gold:'#CAA35A' },
+  manha:  { paper:'#F5EBDA', paper2:'#F0E1C9', surface:'#FCF6EA', ink:'#3B2A1A', soft:'#6f5638', primary:'#C07A38', accent:'#7d6a3e', gold:'#E0B674' },
+};
+
+// ── Helpers ────────────────────────────────────────────────
+function rgba(hex, a) {
+  const [r,g,b] = [hex.slice(1,3),hex.slice(3,5),hex.slice(5,7)].map(x=>parseInt(x,16));
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+function wheat(color, sz) {
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="22" x2="12" y2="8"/><path d="M12 8c0-2-1.5-3.5-3.5-3.5C8.5 6.5 10 8 12 8Z"/><path d="M12 8c0-2 1.5-3.5 3.5-3.5C15.5 6.5 14 8 12 8Z"/><path d="M12 13c0-2-1.5-3.5-3.5-3.5C8.5 11.5 10 13 12 13Z"/><path d="M12 13c0-2 1.5-3.5 3.5-3.5C15.5 11.5 14 13 12 13Z"/></svg>`;
+}
+
+function eyebrow(text, color, s) {
+  if (!text) return '';
+  return `<div style="display:flex;align-items:center;gap:${r(8,s)}px;margin-bottom:${r(10,s)}px">
+    <span style="display:inline-block;width:${r(22,s)}px;height:${r(2,s)}px;background:${color};border-radius:2px;flex-shrink:0"></span>
+    <span style="font-family:'Hanken Grotesk',sans-serif;font-size:${r(11,s)}px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:${color}">${text}</span>
+  </div>`;
+}
+
+function brandMark(inkC, softC, iconC, s, right=false) {
+  const dir = right ? 'flex-direction:row-reverse;' : '';
+  const ta  = right ? 'text-align:right;' : '';
+  return `<div style="display:flex;align-items:center;gap:${r(8,s)}px;${dir}">
+    ${wheat(iconC, r(20,s))}
+    <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:${r(13,s)}px;font-weight:700;color:${inkC};line-height:1.1;${ta}">Velhos Sabores<span style="display:block;font-size:${r(9,s)}px;font-weight:400;color:${softC};letter-spacing:.06em;font-family:'Hanken Grotesk',sans-serif">padaria artesanal</span></div>
+  </div>`;
+}
+
+function badgeEl(text, bg, color, border) {
+  if (!text) return '';
+  return `<span style="display:inline-block;font-family:'Hanken Grotesk',sans-serif;font-size:${r(11,1)}px;font-weight:700;padding:5px 13px;border-radius:999px;background:${bg};color:${color};border:1px solid ${border};letter-spacing:.02em">${text}</span>`;
+}
+
+function photo(url, style) {
+  if (url) return `<img src="${url}" alt="" style="${style};display:block">`;
+  return `<div style="${style};background:repeating-linear-gradient(45deg,rgba(181,97,58,.1) 0 28px,rgba(181,97,58,.05) 28px 56px);display:flex;align-items:center;justify-content:center"><span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(181,97,58,.35);font-family:'Hanken Grotesk',sans-serif">sem imagem</span></div>`;
+}
+
+// round-scale shorthand
+const r = (v, s) => Math.round(v * s);
+
+// ── Post builder (scale=1 → 540px, scale=2 → 1080px via html2canvas) ──
+function buildPost(s) {
+  const p       = PALS[S.palette];
+  const portrait= S.format === 'portrait';
+  const W       = r(540, s);
+  const H       = portrait ? r(675, s) : r(540, s);
+  const ew = document.getElementById('inEyebrow').value;
+  const ti = document.getElementById('inTitle').value;
+  const de = document.getElementById('inDesc').value;
+  const ba = document.getElementById('inBadge').value;
+
+  const wrap = `position:absolute;inset:0;width:${W}px;height:${H}px`;
+  let inner = '';
+
+  if (S.template === 'produto') {
+    // Full-bleed image + dark gradient overlay + text bottom
+    inner = `
+      <div style="position:absolute;inset:0;background:${p.paper}"></div>
+      ${photo(S.img, 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover')}
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.76) 0%,rgba(0,0,0,.28) 50%,transparent 72%)"></div>
+      <div style="position:absolute;top:${r(26,s)}px;left:${r(28,s)}px">${brandMark('#fff','rgba(255,255,255,.7)','#fff',s)}</div>
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:${r(28,s)}px">
+        ${eyebrow(ew, p.gold, s)}
+        ${ti ? `<div style="font-family:'Bricolage Grotesque',sans-serif;font-size:${r(44,s)}px;font-weight:800;color:#fff;line-height:1.02;letter-spacing:-.02em;margin-bottom:${r(8,s)}px">${ti}</div>` : ''}
+        ${de ? `<div style="font-size:${r(16,s)}px;color:rgba(255,255,255,.82);line-height:1.45;margin-bottom:${r(14,s)}px">${de}</div>` : ''}
+        ${badgeEl(ba, p.accent, '#fff', 'transparent')}
+      </div>`;
+
+  } else if (S.template === 'banner') {
+    // Top image fading into text below
+    const imgH = r(H * 0.52, 1);
+    inner = `
+      <div style="position:absolute;inset:0;background:${p.paper}"></div>
+      <div style="position:absolute;top:0;left:0;right:0;height:${imgH}px;overflow:hidden">
+        ${photo(S.img, 'width:100%;height:100%;object-fit:cover')}
+        <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to bottom,transparent,${p.paper})"></div>
+      </div>
+      <div style="position:absolute;top:${r(20,s)}px;right:${r(24,s)}px">${brandMark(p.ink,p.soft,p.primary,s,true)}</div>
+      <div style="position:absolute;bottom:${r(24,s)}px;left:0;right:0;padding:0 ${r(28,s)}px">
+        ${eyebrow(ew, p.primary, s)}
+        ${ti ? `<div style="font-family:'Bricolage Grotesque',sans-serif;font-size:${r(36,s)}px;font-weight:800;color:${p.ink};line-height:1.02;letter-spacing:-.02em;margin-bottom:${r(8,s)}px">${ti}</div>` : ''}
+        ${de ? `<div style="font-size:${r(15,s)}px;color:${p.soft};line-height:1.5;margin-bottom:${r(12,s)}px">${de}</div>` : ''}
+        ${badgeEl(ba, rgba(p.accent,.12), p.accent, rgba(p.accent,.38))}
+      </div>`;
+
+  } else {
+    // Marca: bold text left, circular photo top-right
+    const cSz = r(148, s);
+    inner = `
+      <div style="position:absolute;inset:0;background:${p.paper2}"></div>
+      <div style="position:absolute;top:0;left:0;right:0;height:${r(5,s)}px;background:${p.primary}"></div>
+      <div style="position:absolute;top:${r(52,s)}px;right:${r(32,s)}px;width:${cSz}px;height:${cSz}px;border-radius:50%;overflow:hidden;border:${r(4,s)}px solid ${p.paper};box-shadow:0 4px ${r(20,s)}px rgba(0,0,0,.12)">
+        ${photo(S.img, 'width:100%;height:100%;object-fit:cover')}
+      </div>
+      <div style="position:absolute;top:${r(30,s)}px;left:${r(30,s)}px">${brandMark(p.ink,p.soft,p.primary,s)}</div>
+      <div style="position:absolute;top:${r(H*.36,s)}px;left:0;right:0;padding:0 ${r(32,s)}px">
+        ${eyebrow(ew, p.primary, s)}
+        ${ti ? `<div style="font-family:'Bricolage Grotesque',sans-serif;font-size:${r(46,s)}px;font-weight:800;color:${p.ink};line-height:1.0;letter-spacing:-.025em;margin-bottom:${r(14,s)}px;max-width:${r(290,s)}px">${ti}</div>` : ''}
+        ${de ? `<div style="font-size:${r(15,s)}px;color:${p.soft};line-height:1.55;max-width:${r(290,s)}px">${de}</div>` : ''}
+      </div>
+      <div style="position:absolute;bottom:${r(26,s)}px;left:${r(32,s)}px">
+        ${badgeEl(ba, rgba(p.accent,.14), p.accent, rgba(p.accent,.42))}
+      </div>`;
+  }
+
+  return {
+    W, H,
+    html: `<div style="width:${W}px;height:${H}px;position:relative;overflow:hidden;font-family:'Hanken Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased">${inner}</div>`,
+  };
+}
+
+// ── Render preview ─────────────────────────────────────────
+function render() {
+  const wrap   = document.getElementById('previewWrap');
+  const avW    = wrap.parentElement.clientWidth  - 64;
+  const avH    = wrap.parentElement.clientHeight - 64;
+  const portrait = S.format === 'portrait';
+  const BW = 540, BH = portrait ? 675 : 540;
+  const sc = Math.min(1, avW / BW, avH / BH);
+
+  wrap.style.width  = r(BW, sc) + 'px';
+  wrap.style.height = r(BH, sc) + 'px';
+
+  const { html } = buildPost(sc);
+  wrap.innerHTML = html;
+}
+
+// ── Download ───────────────────────────────────────────────
+async function download() {
+  const btn = document.getElementById('dlBtn');
+  btn.disabled = true;
+  btn.textContent = 'Gerando…';
+
+  const { html, W, H } = buildPost(1);
+
+  const host = document.createElement('div');
+  host.style.cssText = `position:absolute;top:-9999px;left:-9999px;width:${W}px;height:${H}px`;
+  host.innerHTML = html;
+  document.body.appendChild(host);
+
+  await document.fonts.ready;
+  await new Promise(ok => setTimeout(ok, 200));
+
+  try {
+    const canvas = await html2canvas(host.firstChild, {
+      scale: 2, width: W, height: H,
+      useCORS: true, allowTaint: true,
+      backgroundColor: null, logging: false,
+    });
+    const a = document.createElement('a');
+    const slug = (document.getElementById('inTitle').value || 'post')
+      .toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+      .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    a.download = `velhos-sabores-${slug}.png`;
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  } catch(e) {
+    alert('Erro ao gerar: ' + e.message);
+  } finally {
+    document.body.removeChild(host);
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Baixar PNG · 1080px`;
+  }
+}
+
+// ── Picker helper ──────────────────────────────────────────
+function pick(key, value, btn) {
+  S[key] = value;
+  const sel = { template: '.tpl-btn', palette: '.pal-btn', format: '.fmt-btn' }[key];
+  document.querySelectorAll(sel).forEach(el => el.classList.toggle('sel', el === btn));
+  render();
+}
+
+// ── Image loading ──────────────────────────────────────────
+function loadImg(file) {
+  if (!file) return;
+  const fr = new FileReader();
+  fr.onload = e => {
+    S.img = e.target.result;
+    const dz = document.getElementById('dropZone');
+    dz.classList.add('has-img');
+    document.getElementById('dropPrev').src = e.target.result;
+    render();
+  };
+  fr.readAsDataURL(file);
+}
+
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('over');
+  const f = e.dataTransfer.files[0];
+  if (f?.type.startsWith('image/')) loadImg(f);
+});
+
+// ── Init ───────────────────────────────────────────────────
+render();
+window.addEventListener('resize', render);
+</script>
+</body>
+</html>
