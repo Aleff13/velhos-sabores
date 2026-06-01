@@ -1,0 +1,259 @@
+/* ============================================================
+   VELHOS SABORES — Padaria Artesanal
+   Design tokens, type system, alternating palettes
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+/* ---------- Default palette: Forno & Trigo (terracota / trigo / creme) ---------- */
+:root {
+  --paper:      #F3E7D2;   /* fundo principal, papel pão */
+  --paper-2:    #ECDCC2;   /* fundo alternado, mais quente */
+  --surface:    #FBF4E6;   /* cartões claros */
+  --surface-2:  #FFFCF6;   /* cartões mais limpos */
+  --ink:        #36271B;   /* texto cacau profundo */
+  --ink-soft:   #6E5A47;   /* texto secundário */
+  --ink-faint:  #9A856E;   /* legendas / mono */
+  --primary:    #B5613A;   /* terracota */
+  --primary-d:  #97492A;   /* terracota escuro (hover) */
+  --accent:     #6E7A4F;   /* oliva — selo artesanal */
+  --gold:       #CDA15A;   /* dourado / mel */
+  --line:       rgba(54, 39, 27, 0.14);
+  --line-soft:  rgba(54, 39, 27, 0.08);
+  --shadow:     rgba(54, 39, 27, 0.16);
+  --industrial-bg: #ECEAE4;
+  --industrial-ink:#7c786f;
+  --industrial-line: rgba(60,58,52,0.14);
+}
+
+/* ---------- Geleia & Canela (framboesa / dourado / cacau) ---------- */
+[data-palette="geleia"] {
+  --paper:      #F6ECDD;
+  --paper-2:    #F0E0CC;
+  --surface:    #FCF5EA;
+  --surface-2:  #FFFDF8;
+  --ink:        #3A201F;
+  --ink-soft:   #6F4A45;
+  --ink-faint:  #A07d75;
+  --primary:    #A8324A;
+  --primary-d:  #8a2740;
+  --accent:     #8a5a36;
+  --gold:       #D99A4E;
+  --line:       rgba(58, 32, 31, 0.14);
+  --line-soft:  rgba(58, 32, 31, 0.08);
+  --shadow:     rgba(58, 32, 31, 0.16);
+  --industrial-bg: #ECEAE4;
+  --industrial-ink:#7c786f;
+  --industrial-line: rgba(60,58,52,0.14);
+}
+
+/* ---------- Horta & Mel (oliva / mel / madeira) ---------- */
+[data-palette="horta"] {
+  --paper:      #EEE6D4;
+  --paper-2:    #E6DBC3;
+  --surface:    #F8F2E4;
+  --surface-2:  #FEFCF5;
+  --ink:        #2C2A1E;
+  --ink-soft:   #5e5a44;
+  --ink-faint:  #8d886e;
+  --primary:    #4A6140;
+  --primary-d:  #3a4f31;
+  --accent:     #8C5A32;
+  --gold:       #CAA35A;
+  --line:       rgba(44, 42, 30, 0.14);
+  --line-soft:  rgba(44, 42, 30, 0.08);
+  --shadow:     rgba(44, 42, 30, 0.16);
+  --industrial-bg: #EAE9E3;
+  --industrial-ink:#7a776e;
+  --industrial-line: rgba(58,56,50,0.14);
+}
+
+/* ---------- Manhã de Domingo (mel suave / âmbar / canela) ---------- */
+[data-palette="manha"] {
+  --paper:      #F5EBDA;
+  --paper-2:    #F0E1C9;
+  --surface:    #FCF6EA;
+  --surface-2:  #FFFDF7;
+  --ink:        #3B2A1A;
+  --ink-soft:   #6f5638;
+  --ink-faint:  #a08a68;
+  --primary:    #C07A38;
+  --primary-d:  #a4632a;
+  --accent:     #7d6a3e;
+  --gold:       #E0B674;
+  --line:       rgba(59, 42, 26, 0.14);
+  --line-soft:  rgba(59, 42, 26, 0.08);
+  --shadow:     rgba(59, 42, 26, 0.16);
+  --industrial-bg: #ECEAE3;
+  --industrial-ink:#7c786f;
+  --industrial-line: rgba(60,58,52,0.14);
+}
+
+/* ============================================================
+   Reset & base
+   ============================================================ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  line-height: 1.6;
+  font-size: 17px;
+  transition: background-color .5s ease, color .5s ease;
+}
+
+/* subtle paper grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--grain-opacity, 0.5);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: 'Bricolage Grotesque', 'Hanken Grotesk', sans-serif;
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.serif-accent {
+  font-family: 'Hanken Grotesk', serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+img, svg { display: block; }
+
+/* ============================================================
+   Layout helpers
+   ============================================================ */
+.wrap { width: min(1200px, 92vw); margin-inline: auto; }
+.wrap-narrow { width: min(820px, 92vw); margin-inline: auto; }
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}
+.eyebrow::before {
+  content: "";
+  width: 1.8em; height: 2px;
+  background: var(--primary);
+  display: inline-block;
+}
+
+.mono {
+  font-family: 'Hanken Grotesk', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.85em 1.5em;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  border: 1.5px solid transparent;
+  transition: transform .18s ease, background-color .2s ease, box-shadow .2s ease, color .2s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 18px -8px var(--primary);
+}
+.btn-primary:hover { background: var(--primary-d); transform: translateY(-2px); box-shadow: 0 12px 26px -10px var(--primary); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+}
+.btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+/* ============================================================
+   Placeholder imagery (faixas + label mono)
+   ============================================================ */
+.ph {
+  position: relative;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      color-mix(in oklab, var(--accent) 16%, var(--surface)) 0 14px,
+      color-mix(in oklab, var(--accent) 7%, var(--surface)) 14px 28px
+    );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+}
+.ph::after {
+  content: attr(data-label);
+  font-family: 'Hanken Grotesk', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--surface-2);
+  color: var(--ink-faint);
+  padding: 0.4em 0.8em;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  text-align: center;
+  max-width: 80%;
+}
+
+/* ============================================================
+   Badges / pills
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.35em 0.75em;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-soft);
+}
+.badge.ok { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 35%, transparent); background: color-mix(in oklab, var(--accent) 9%, var(--surface)); }
+
+/* ============================================================
+   Reveal on scroll
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* position context for app */
+#root { position: relative; z-index: 2; }

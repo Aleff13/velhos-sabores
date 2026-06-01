@@ -1,0 +1,326 @@
+/* ============================================================
+   VELHOS SABORES — layout & component styles (ui.css)
+   ============================================================ */
+
+/* ---------------- NAV ---------------- */
+.vs-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 60;
+  transition: background-color .35s ease, box-shadow .35s ease, padding .35s ease;
+  padding: 14px 0;
+}
+.vs-nav.is-scrolled {
+  background: color-mix(in oklab, var(--paper) 86%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 1px 0 var(--line-soft), 0 10px 30px -22px var(--shadow);
+  padding: 8px 0;
+}
+.vs-nav-inner { display: flex; align-items: center; gap: 18px; }
+
+.vs-brand { display: inline-flex; align-items: center; gap: 11px; background: none; border: 0; padding: 4px; }
+.vs-brand-mark {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: color-mix(in oklab, var(--primary) 14%, var(--surface));
+  color: var(--primary); border: 1px solid var(--line);
+  flex: none;
+}
+.vs-brand-text { display: flex; flex-direction: column; line-height: 1; text-align: left; }
+.vs-brand-name { font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 1.18rem; letter-spacing: -0.02em; color: var(--ink); }
+.vs-brand-sub { font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-faint); margin-top: 3px; }
+
+.vs-nav-links { display: flex; gap: 4px; margin-left: auto; }
+.vs-nav-link {
+  background: none; border: 0; color: var(--ink-soft);
+  font-size: 0.96rem; font-weight: 600; padding: 8px 14px; border-radius: 999px;
+  transition: color .2s, background-color .2s; position: relative;
+}
+.vs-nav-link:hover { color: var(--ink); }
+.vs-nav-link.active { color: var(--primary); }
+.vs-nav-link.active::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 2px; height: 2px;
+  background: var(--primary); border-radius: 2px;
+}
+.vs-nav-cta { padding: 0.6em 1.2em; font-size: 0.92rem; }
+
+.vs-burger { display: none; flex-direction: column; gap: 5px; background: none; border: 0; padding: 8px; }
+.vs-burger span { width: 24px; height: 2px; background: var(--ink); border-radius: 2px; }
+.vs-nav-mobile { display: none; }
+
+/* page fade */
+.vs-page-fade { animation: vsFade .5s cubic-bezier(.2,.7,.2,1); }
+@keyframes vsFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.vs-hero { padding: 132px 0 70px; }
+.vs-hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+.vs-hero-title { font-size: clamp(2.8rem, 6vw, 5rem); margin: 18px 0 22px; }
+.vs-hero-title em { color: var(--primary); font-size: 1em; }
+.vs-hero-lead { font-size: 1.18rem; color: var(--ink-soft); max-width: 30em; }
+.vs-hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin: 30px 0 22px; }
+.vs-hero-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.vs-hero-art { position: relative; }
+.vs-hero-img { aspect-ratio: 4/5; border-radius: 220px 220px 24px 24px; border: 1px solid var(--line); box-shadow: 0 40px 80px -50px var(--shadow); }
+.vs-hero-stamp {
+  position: absolute; top: 22px; left: -18px;
+  width: 92px; height: 92px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: grid; place-items: center; text-align: center; gap: 2px;
+  font-size: 0.72rem; font-weight: 700; line-height: 1.1; letter-spacing: 0.04em;
+  box-shadow: 0 16px 30px -16px var(--shadow); transform: rotate(-9deg);
+}
+.vs-hero-stamp svg { margin-bottom: 2px; }
+.vs-hero-note {
+  position: absolute; bottom: 18px; right: -14px;
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: 16px;
+  padding: 14px 18px; box-shadow: 0 20px 40px -26px var(--shadow);
+  display: flex; flex-direction: column; line-height: 1.1;
+}
+.vs-hero-note strong { font-family: 'Bricolage Grotesque'; font-size: 1.7rem; color: var(--primary); }
+.vs-hero-note span { font-size: 0.74rem; color: var(--ink-soft); margin-top: 3px; }
+
+/* ============================================================
+   VALUES
+   ============================================================ */
+.vs-values { padding: 26px 0 60px; }
+.vs-values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.vs-value {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+  padding: 26px 22px;
+}
+.vs-value-ico {
+  width: 46px; height: 46px; border-radius: 13px; display: grid; place-items: center;
+  background: color-mix(in oklab, var(--primary) 12%, var(--surface)); color: var(--primary);
+  margin-bottom: 14px;
+}
+.vs-value h3 { font-size: 1.08rem; margin-bottom: 6px; }
+.vs-value p { font-size: 0.92rem; color: var(--ink-soft); }
+
+/* ============================================================
+   PROPOSTA
+   ============================================================ */
+.vs-proposta { padding: 64px 0; background: var(--paper-2); }
+.vs-proposta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.vs-proposta-art { position: relative; height: 460px; }
+.vs-proposta-img { position: absolute; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 30px 60px -40px var(--shadow); }
+.vs-proposta-img.a { width: 70%; height: 78%; top: 0; left: 0; z-index: 2; }
+.vs-proposta-img.b { width: 56%; height: 60%; bottom: 0; right: 0; }
+.vs-proposta-copy h2 { font-size: clamp(1.9rem, 3.4vw, 2.8rem); margin: 16px 0 18px; }
+.vs-proposta-copy p { color: var(--ink-soft); margin-bottom: 16px; font-size: 1.06rem; }
+.vs-proposta-copy .btn { margin-top: 8px; }
+
+/* ============================================================
+   SECTION HEAD
+   ============================================================ */
+.vs-section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 38px; }
+.vs-section-head h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin-top: 12px; }
+.vs-section-head.center { flex-direction: column; align-items: center; text-align: center; }
+
+/* ============================================================
+   PRODUCTS PREVIEW
+   ============================================================ */
+.vs-preview { padding: 78px 0; }
+.vs-preview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.vs-pcard {
+  text-align: left; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 20px; overflow: hidden; padding: 0; display: flex; flex-direction: column;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+}
+.vs-pcard:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -34px var(--shadow); border-color: color-mix(in oklab, var(--primary) 40%, var(--line)); }
+.vs-pcard-img { aspect-ratio: 4/3; }
+.vs-pcard-body { padding: 18px 18px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; flex: 1; }
+.vs-pcard-body h3 { font-size: 1.16rem; }
+.vs-pcard-body p { font-size: 0.9rem; color: var(--ink-soft); }
+.vs-pcard-link { margin-top: auto; padding-top: 8px; color: var(--primary); font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; transition: gap .2s; }
+.vs-pcard:hover .vs-pcard-link { gap: 11px; }
+
+/* ============================================================
+   CTA BAND
+   ============================================================ */
+.vs-band { padding: 30px 0 90px; }
+.vs-band-inner {
+  background: var(--ink); color: var(--surface-2);
+  border-radius: 28px; padding: 60px clamp(28px, 6vw, 80px); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  position: relative; overflow: hidden;
+}
+.vs-band-inner::after {
+  content: ""; position: absolute; inset: 0; opacity: .5; pointer-events: none;
+  background: radial-gradient(120% 90% at 80% -10%, color-mix(in oklab, var(--primary) 55%, transparent), transparent 60%);
+}
+.vs-band-inner h2 { color: var(--surface-2); font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin: 6px 0 10px; position: relative; }
+.vs-band-inner p { color: color-mix(in oklab, var(--surface-2) 78%, transparent); max-width: 40em; position: relative; margin-bottom: 14px; }
+.vs-band-inner .btn { position: relative; }
+
+/* ============================================================
+   PRODUTOS PAGE
+   ============================================================ */
+.vs-prod-hero { padding: 132px 0 50px; text-align: center; }
+.vs-prod-hero-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.vs-prod-hero h1 { font-size: clamp(2.5rem, 5.4vw, 4.2rem); }
+.vs-prod-hero p { font-size: 1.16rem; color: var(--ink-soft); max-width: 34em; }
+.vs-prod-legend { display: flex; gap: 26px; font-size: 0.92rem; font-weight: 600; color: var(--ink-soft); margin-top: 4px; }
+.vs-prod-legend span { display: inline-flex; align-items: center; gap: 8px; }
+
+.vs-prod-list { padding: 40px 0 30px; }
+.vs-product { padding: 46px 0; border-top: 1px solid var(--line); }
+.vs-product:first-child { border-top: 0; }
+.vs-product-identity { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 50px; align-items: center; margin-bottom: 34px; }
+.vs-product.rev .vs-product-identity { grid-template-columns: 1.08fr 0.92fr; }
+.vs-product.rev .vs-product-art { order: 2; }
+.vs-product-art { position: relative; }
+.vs-product-img { aspect-ratio: 5/4; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 30px 60px -42px var(--shadow); }
+.vs-product-no {
+  position: absolute; top: -18px; left: -10px; font-size: 3.4rem; font-weight: 700;
+  color: color-mix(in oklab, var(--primary) 26%, transparent); letter-spacing: -0.04em;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--primary) 40%, transparent); font-family: 'Bricolage Grotesque';
+}
+.vs-product-info h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin: 12px 0 4px; }
+.vs-product-tag { color: var(--primary); font-size: 1.1rem; margin-bottom: 12px; }
+.vs-product-desc { color: var(--ink-soft); font-size: 1.04rem; margin-bottom: 20px; max-width: 36em; }
+.vs-ingredients { margin-bottom: 22px; }
+.vs-ing-label { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; }
+.vs-ing-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.vs-chip {
+  font-size: 0.84rem; padding: 0.4em 0.8em; border-radius: 999px;
+  background: color-mix(in oklab, var(--accent) 10%, var(--surface));
+  border: 1px solid color-mix(in oklab, var(--accent) 26%, transparent); color: var(--ink-soft);
+}
+
+/* COMPARE PANEL */
+.vs-compare {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+  overflow: hidden; box-shadow: 0 24px 50px -42px var(--shadow);
+}
+.vs-compare-head, .vs-compare-row { display: grid; grid-template-columns: 1.1fr 1.3fr 1.3fr; }
+.vs-compare-head { background: color-mix(in oklab, var(--ink) 5%, var(--surface)); border-bottom: 1px solid var(--line); }
+.vs-compare-col { padding: 18px 22px; display: flex; align-items: center; gap: 12px; }
+.vs-compare-col.label { font-weight: 700; font-size: 0.84rem; letter-spacing: 0.04em; color: var(--ink); text-transform: uppercase; }
+.vs-compare-head .vs-compare-col { padding-block: 16px; }
+.vs-col-tag { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 1.02rem; display: inline-flex; align-items: center; gap: 8px; color: var(--primary); }
+.vs-col-tag.muted { color: var(--industrial-ink); font-weight: 600; }
+.vs-col-ind { background: var(--industrial-bg); }
+.vs-compare-row { border-top: 1px solid var(--line-soft); }
+.vs-compare-row .vs-col-ind { border-left: 1px solid var(--industrial-line); }
+.vs-mark { flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; }
+.vs-mark.ok { background: color-mix(in oklab, var(--accent) 18%, var(--surface)); color: var(--accent); }
+.vs-mark.no { background: color-mix(in oklab, var(--industrial-ink) 16%, transparent); color: var(--industrial-ink); }
+.vs-val { font-size: 0.98rem; font-weight: 600; color: var(--ink); }
+.vs-val.muted { color: var(--industrial-ink); font-weight: 500; }
+
+/* ============================================================
+   SOBRE
+   ============================================================ */
+.vs-sobre-hero { padding: 132px 0 56px; }
+.vs-sobre-hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
+.vs-sobre-hero h1 { font-size: clamp(2.4rem, 5vw, 4rem); margin: 16px 0 22px; }
+.vs-sobre-hero h1 em { color: var(--primary); }
+.vs-sobre-hero p { font-size: 1.14rem; color: var(--ink-soft); max-width: 34em; }
+.vs-sobre-portrait { aspect-ratio: 4/5; border-radius: 24px 24px 180px 180px; border: 1px solid var(--line); box-shadow: 0 40px 80px -50px var(--shadow); }
+
+.vs-quote { padding: 50px 0; }
+.vs-quote .wrap-narrow { text-align: center; }
+.vs-quote-text { font-family: 'Bricolage Grotesque'; font-size: clamp(1.6rem, 3.4vw, 2.5rem); line-height: 1.25; letter-spacing: -0.02em; }
+.vs-quote-text em { color: var(--primary); }
+.vs-quote-by { display: block; margin-top: 18px; color: var(--ink-faint); letter-spacing: 0.1em; }
+
+.vs-process { padding: 60px 0; background: var(--paper-2); }
+.vs-process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.vs-step { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 28px 24px; }
+.vs-step-no { font-family: 'Bricolage Grotesque'; font-size: 2rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 10px; }
+.vs-step h3 { font-size: 1.18rem; margin-bottom: 8px; }
+.vs-step p { color: var(--ink-soft); font-size: 0.95rem; }
+
+.vs-manifesto { padding: 78px 0; }
+.vs-manifesto-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 56px; align-items: center; }
+.vs-manifesto-img { aspect-ratio: 4/3; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 30px 60px -42px var(--shadow); }
+.vs-manifesto-copy h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin: 14px 0 22px; }
+.vs-manifesto-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+.vs-manifesto-list li { display: flex; align-items: center; gap: 12px; font-size: 1.06rem; color: var(--ink-soft); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.vs-footer { background: var(--ink); color: color-mix(in oklab, var(--surface-2) 80%, transparent); padding: 70px 0 30px; position: relative; z-index: 2; }
+.vs-footer .vs-brand-name, .vs-footer .vs-brand-sub { color: var(--surface-2); }
+.vs-footer .vs-brand-mark { background: color-mix(in oklab, var(--primary) 30%, transparent); border-color: transparent; color: #fff; }
+.vs-footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 44px; padding-bottom: 44px; border-bottom: 1px solid color-mix(in oklab, var(--surface-2) 14%, transparent); }
+.vs-footer-brand p { margin: 20px 0 22px; max-width: 34em; color: color-mix(in oklab, var(--surface-2) 70%, transparent); }
+.vs-footer-col { display: flex; flex-direction: column; gap: 12px; }
+.vs-footer-col h4 { color: var(--surface-2); font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px; }
+.vs-footer-col button, .vs-footer-col span { background: none; border: 0; text-align: left; color: color-mix(in oklab, var(--surface-2) 70%, transparent); font-size: 0.96rem; padding: 0; transition: color .2s; }
+.vs-footer-col button:hover { color: var(--surface-2); }
+.vs-footer-base { display: flex; justify-content: space-between; padding-top: 24px; font-size: 0.85rem; color: color-mix(in oklab, var(--surface-2) 55%, transparent); }
+
+/* ============================================================
+   FLOATING WHATSAPP
+   ============================================================ */
+.vs-fab {
+  position: fixed; right: 24px; bottom: 24px; z-index: 80;
+  width: 62px; height: 62px; border-radius: 50%;
+  background: #25D366; color: #fff; display: grid; place-items: center;
+  box-shadow: 0 16px 34px -12px rgba(37,211,102,0.7);
+  opacity: 0; transform: translateY(20px) scale(.7); transition: transform .4s cubic-bezier(.2,.9,.3,1.3), opacity .4s, box-shadow .25s;
+}
+.vs-fab.in { opacity: 1; transform: none; }
+.vs-fab:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 20px 40px -10px rgba(37,211,102,0.8); }
+.vs-fab svg { position: relative; z-index: 2; }
+.vs-fab-pulse { position: absolute; inset: 0; border-radius: 50%; background: #25D366; animation: vsPulse 2.6s ease-out infinite; z-index: 1; }
+@keyframes vsPulse { 0% { transform: scale(1); opacity: .55; } 70%,100% { transform: scale(1.8); opacity: 0; } }
+.vs-fab-tip {
+  position: absolute; right: 74px; white-space: nowrap;
+  background: var(--ink); color: var(--surface-2); font-size: 0.86rem; font-weight: 600;
+  padding: 9px 14px; border-radius: 12px; box-shadow: 0 12px 24px -14px var(--shadow);
+  opacity: 0; transform: translateX(8px); pointer-events: none; transition: opacity .3s, transform .3s;
+}
+.vs-fab-tip.show { opacity: 1; transform: none; }
+.vs-fab-tip::after { content: ""; position: absolute; right: -5px; top: 50%; transform: translateY(-50%) rotate(45deg); width: 10px; height: 10px; background: var(--ink); }
+
+/* ============================================================
+   TWEAKS — palette picker
+   ============================================================ */
+.vs-tw-palettes { display: flex; flex-direction: column; gap: 8px; }
+.vs-tw-pal {
+  display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 12px;
+  border: 1.5px solid rgba(0,0,0,0.1); background: rgba(0,0,0,0.02); transition: border-color .2s, background .2s;
+}
+.vs-tw-pal:hover { background: rgba(0,0,0,0.04); }
+.vs-tw-pal.active { border-color: #36271B; background: rgba(0,0,0,0.05); }
+.vs-tw-sw { display: inline-flex; border-radius: 6px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); flex: none; }
+.vs-tw-sw i { width: 18px; height: 26px; }
+.vs-tw-name { font-size: 0.9rem; font-weight: 600; color: #36271B; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 980px) {
+  .vs-nav-links, .vs-nav-cta { display: none; }
+  .vs-burger { display: flex; }
+  .vs-nav.is-scrolled, .vs-nav { background: color-mix(in oklab, var(--paper) 90%, transparent); backdrop-filter: blur(12px); }
+  .vs-nav-mobile { display: flex; flex-direction: column; gap: 8px; padding: 14px 4vw 18px; }
+  .vs-nav-mobile .vs-nav-link { text-align: left; font-size: 1.1rem; }
+
+  .vs-hero-grid, .vs-proposta-grid, .vs-product-identity, .vs-product.rev .vs-product-identity,
+  .vs-sobre-hero-grid, .vs-manifesto-grid { grid-template-columns: 1fr; gap: 36px; }
+  .vs-product.rev .vs-product-art { order: 0; }
+  .vs-values-grid, .vs-preview-grid, .vs-process-grid { grid-template-columns: repeat(2, 1fr); }
+  .vs-proposta-art { height: 380px; }
+  .vs-footer-grid { grid-template-columns: 1fr 1fr; }
+  .vs-footer-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .vs-hero { padding: 110px 0 50px; }
+  .vs-values-grid, .vs-preview-grid, .vs-process-grid { grid-template-columns: 1fr; }
+  .vs-compare-head, .vs-compare-row { grid-template-columns: 1fr; }
+  .vs-compare-col.label { background: color-mix(in oklab, var(--ink) 5%, var(--surface)); padding-block: 10px; font-size: 0.72rem; }
+  .vs-compare-row { border-top: 4px solid var(--paper-2); }
+  .vs-compare-row .vs-col-ind { border-left: 0; border-top: 1px solid var(--industrial-line); }
+  .vs-compare-head { display: none; }
+  .vs-col-ind::before, .vs-col-art::before { font-family: 'Bricolage Grotesque'; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: .6; margin-right: auto; }
+  .vs-footer-grid { grid-template-columns: 1fr; }
+  .vs-band-inner { padding: 44px 24px; }
+  .vs-fab { right: 16px; bottom: 16px; }
+}
