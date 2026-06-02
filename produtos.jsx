@@ -33,7 +33,7 @@ function ProductBlock({ p, index, reverse }) {
     <article className={`vs-product reveal ${reverse ? 'rev' : ''}`} id={`prod-${p.id}`}>
       <div className="vs-product-identity">
         <div className="vs-product-art">
-          <Ph label={p.label} className="vs-product-img" />
+          <Ph label={p.label} src={p.img} className="vs-product-img" />
           <span className="vs-product-no mono">{String(index + 1).padStart(2, '0')}</span>
         </div>
         <div className="vs-product-info">

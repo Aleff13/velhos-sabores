@@ -22,7 +22,18 @@ function Icon({ name, size = 20, stroke = 2 }) {
 }
 
 /* ---------- Placeholder image with mono label ---------- */
-function Ph({ label, style, className = '' }) {
+function Ph({ label, src, style, className = '' }) {
+  if (src) {
+    return (
+      <img
+        className={className}
+        src={src}
+        alt={label}
+        loading="lazy"
+        style={{ display: 'block', width: '100%', objectFit: 'cover', ...style }}
+      />
+    );
+  }
   return <div className={`ph ${className}`} data-label={label} style={style} />;
 }
 
@@ -58,7 +69,9 @@ function useReveal() {
 function Brand({ onClick, compact }) {
   return (
     <button onClick={onClick} className="vs-brand" aria-label="Velhos Sabores — início">
-      <span className="vs-brand-mark"><Icon name="wheat" size={compact ? 20 : 24} /></span>
+      <span className="vs-brand-mark">
+        <img src="assets/logo.png" alt="Velhos Sabores" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} />
+      </span>
       <span className="vs-brand-text">
         <span className="vs-brand-name">Velhos Sabores</span>
         <span className="vs-brand-sub">padaria artesanal</span>

@@ -36,7 +36,8 @@ function HomePage({ go }) {
             </div>
           </div>
           <div className="vs-hero-art reveal">
-            <Ph label="foto · pão recém-saído do forno" className="vs-hero-img" />
+
+            <Ph label="foto · pão recém-saído do forno" src="https://images.unsplash.com/photo-1613396874083-2d5fbe59ae79?w=900&q=80&auto=format&fit=crop" className="vs-hero-img" />
             <div className="vs-hero-stamp">
               <Icon name="wheat" size={22} />
               <span>feito<br />à mão</span>
@@ -66,8 +67,8 @@ function HomePage({ go }) {
       <section className="vs-proposta">
         <div className="wrap vs-proposta-grid">
           <div className="vs-proposta-art reveal">
-            <Ph label="foto · mãos sovando a massa" className="vs-proposta-img a" />
-            <Ph label="foto · interior da padaria" className="vs-proposta-img b" />
+            <Ph label="foto · mãos sovando a massa" src="https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?w=700&q=80&auto=format&fit=crop" className="vs-proposta-img a" />
+            <Ph label="foto · interior da padaria" src="https://images.unsplash.com/photo-1536782896453-61d09f3aaf3e?w=600&q=80&auto=format&fit=crop" className="vs-proposta-img b" />
           </div>
           <div className="vs-proposta-copy reveal">
             <span className="eyebrow">Nossa proposta</span>
@@ -105,7 +106,7 @@ function HomePage({ go }) {
                 style={{ transitionDelay: `${i * 60}ms` }}
                 onClick={() => go('produtos', p.id)}
               >
-                <Ph label={p.label} className="vs-pcard-img" />
+                <Ph label={p.label} src={p.img} className="vs-pcard-img" />
                 <div className="vs-pcard-body">
                   <span className="badge ok"><Icon name="leaf" size={13} /> {p.selo}</span>
                   <h3>{p.nome}</h3>

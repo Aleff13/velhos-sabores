@@ -3,6 +3,7 @@
 const VS_PRODUCTS = [
   {
     id: 'canela',
+    img: 'https://images.unsplash.com/photo-1746333372850-2eaa2dc31bed?w=700&q=80&auto=format&fit=crop',
     nome: 'Pão de Canela',
     tagline: 'Doce de tarde de domingo',
     descricao:
@@ -25,6 +26,7 @@ const VS_PRODUCTS = [
   },
   {
     id: 'integral',
+    img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=700&q=80&auto=format&fit=crop',
     nome: 'Pão Integral',
     tagline: 'O de todo dia, do jeito certo',
     descricao:
@@ -47,6 +49,7 @@ const VS_PRODUCTS = [
   },
   {
     id: 'graos',
+    img: 'https://images.unsplash.com/photo-1650377812669-e42ad1e88e8d?w=700&q=80&auto=format&fit=crop',
     nome: 'Integral · 4 Grãos & Passas',
     tagline: 'O mais cheio de história',
     descricao:
@@ -69,6 +72,7 @@ const VS_PRODUCTS = [
   },
   {
     id: 'caseiro',
+    img: 'https://images.unsplash.com/photo-1536534028025-68598ea8af44?w=700&q=80&auto=format&fit=crop',
     nome: 'Pão Caseiro',
     tagline: 'A memória do café da manhã',
     descricao:
