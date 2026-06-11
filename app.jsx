@@ -1,7 +1,10 @@
 // app.jsx — Velhos Sabores: routing + palette tweaks
 const { useState: useS, useEffect: useE } = React;
 
-const SECRET_ROUTE = '#studio';
+const STUDIO_ROUTES = {
+  studio: 'instagram-generator.html',
+  'recipe-studio': 'recipe-ebook-generator.html',
+};
 
 const PALETTES = {
   forno:  { label: 'Forno & Trigo',     sw: ['#B5613A', '#6E7A4F', '#F3E7D2'] },
@@ -17,14 +20,15 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-  const [page, setPage] = useS(() =>
-    window.location.hash === SECRET_ROUTE ? 'studio' : 'home'
-  );
+  const [page, setPage] = useS(() => {
+    const hash = window.location.hash.slice(1);
+    return STUDIO_ROUTES[hash] ? hash : 'home';
+  });
   const [focusId, setFocusId] = useS(null);
 
   // apply palette + grain to <html>
   useE(() => {
-    if (page === 'studio') return;
+    if (STUDIO_ROUTES[page]) return;
     document.documentElement.setAttribute('data-palette', t.palette || 'forno');
     document.documentElement.style.setProperty('--grain-opacity', t.grain ? '0.5' : '0');
   }, [t.palette, t.grain, page]);
@@ -35,10 +39,10 @@ function App() {
     if (p !== 'produtos' || !fid) window.scrollTo({ top: 0, behavior: 'auto' });
   };
 
-  if (page === 'studio') {
+  if (STUDIO_ROUTES[page]) {
     return (
       <iframe
-        src="instagram-generator.html"
+        src={STUDIO_ROUTES[page]}
         style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', border: 'none' }}
         title="Studio"
       />

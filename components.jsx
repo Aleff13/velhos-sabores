@@ -143,6 +143,11 @@ function Footer({ go }) {
           <button onClick={() => go('sobre')}>A história</button>
         </div>
         <div className="vs-footer-col">
+          <h4>Ferramentas</h4>
+          <a href="#studio" style={{ cursor: 'pointer' }}>Gerador de Posts</a>
+          <a href="#recipe-studio" style={{ cursor: 'pointer' }}>Gerador de eBooks</a>
+        </div>
+        <div className="vs-footer-col">
           <h4>A padaria</h4>
           <span>Ter — Sáb · 7h às 19h</span>
           <span>Domingo · 7h às 13h</span>

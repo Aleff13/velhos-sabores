@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de eBook de Receita · Velhos Sabores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --u-bg:      #13100e;
+      --u-surface: #1d1915;
+      --u-s2:      #261f1a;
+      --u-border:  rgba(255,255,255,.08);
+      --u-text:    #e0d5cb;
+      --u-muted:   #927f70;
+      --u-accent:  #B5613A;
+      --u-accent-d:#8f4c2e;
+      --pdf-bg:    #f5f1ed;
+      --pdf-text:  #29261b;
+    }
+
+    html, body { height: 100%; font-family: 'Hanken Grotesk', system-ui, sans-serif; background: var(--u-bg); color: var(--u-text); font-size: 14px; }
+
+    body {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      grid-template-rows: 50px 1fr;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Header ── */
+    .hdr {
+      grid-column: 1 / -1;
+      background: var(--u-surface);
+      border-bottom: 1px solid var(--u-border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 12px;
+    }
+    .hdr-brand { display: flex; align-items: center; gap: 8px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 15px; }
+    .hdr-sep   { color: var(--u-border); font-size: 20px; }
+    .hdr-tool  { font-size: 13px; color: var(--u-muted); }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      background: var(--u-surface);
+      border-right: 1px solid var(--u-border);
+      overflow-y: auto;
+      padding: 18px 15px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .sec-title {
+      font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--u-muted); padding-bottom: 9px; border-bottom: 1px solid var(--u-border); margin-bottom: 2px;
+    }
+
+    /* Palette selector */
+    .pal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+    .pal-btn  { border: 2px solid transparent; border-radius: 7px; padding: 2px; cursor: pointer; transition: border-color .15s; }
+    .pal-btn.sel { border-color: var(--u-text); }
+    .pal-swatch  { width: 100%; aspect-ratio: 1; border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; }
+    .pal-top { flex: 1; }
+    .pal-bot { flex: 1; }
+    .pal-name { font-size: 9px; color: var(--u-muted); text-align: center; margin-top: 3px; display: block; }
+
+    /* Fields */
+    .fields { display: flex; flex-direction: column; gap: 10px; }
+    .field  { display: flex; flex-direction: column; gap: 4px; }
+    .field label { font-size: 11px; color: var(--u-muted); font-weight: 500; }
+    .field input, .field textarea {
+      background: var(--u-s2); border: 1px solid var(--u-border); border-radius: 7px;
+      color: var(--u-text); font-family: inherit; font-size: 13px; padding: 8px 10px;
+      width: 100%; outline: none; resize: vertical; line-height: 1.45; transition: border-color .15s;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--u-accent); }
+    .field textarea { min-height: 60px; }
+
+    /* Download button */
+    .dl-btn {
+      background: var(--u-accent); color: #fff; border: none; border-radius: 9px;
+      padding: 13px 16px; font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center;
+      gap: 8px; transition: background .15s; margin-top: 8px;
+    }
+    .dl-btn:hover    { background: var(--u-accent-d); }
+    .dl-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* Preview */
+    .preview {
+      display: flex; align-items: center; justify-content: center;
+      background: #0e0b09; padding: 32px; overflow: auto;
+    }
+    #previewWrap { position: relative; }
+
+    /* PDF Styles */
+    .pdf-page {
+      width: 210mm;
+      height: 297mm;
+      background: var(--pdf-bg);
+      color: var(--pdf-text);
+      padding: 40px 50px;
+      font-family: 'Merriweather', serif;
+      font-size: 16px;
+      line-height: 1.6;
+      box-shadow: 0 8px 40px rgba(0,0,0,.6);
+    }
+
+    .pdf-header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid var(--pdf-accent);
+      padding-bottom: 20px;
+    }
+
+    .pdf-brand {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--pdf-accent);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .pdf-title {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--pdf-text);
+      margin-bottom: 8px;
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+
+    .pdf-tagline {
+      font-size: 14px;
+      color: var(--pdf-muted);
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+
+    .pdf-desc {
+      font-size: 14px;
+      color: var(--pdf-muted);
+      line-height: 1.5;
+    }
+
+    .pdf-section {
+      margin-top: 24px;
+    }
+
+    .pdf-section-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--pdf-accent);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(181,97,58,.3);
+    }
+
+    .pdf-section-content {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--pdf-text);
+    }
+
+    .pdf-ingredients {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pdf-ingredient {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .pdf-ingredient::before {
+      content: '•';
+      color: var(--pdf-accent);
+      flex: 0 0 auto;
+      font-weight: bold;
+    }
+
+    .pdf-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pdf-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .pdf-step-num {
+      background: var(--pdf-accent);
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      flex: 0 0 auto;
+    }
+
+    .pdf-tips {
+      background: rgba(181,97,58,.08);
+      padding: 12px 14px;
+      border-left: 3px solid var(--pdf-accent);
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .pdf-footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--pdf-muted);
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(181,97,58,.2);
+    }
+
+    /* Palette colors */
+    .palette-forno { --pdf-accent: #B5613A; --pdf-muted: #6E7A4F; }
+    .palette-geleia { --pdf-accent: #A8324A; --pdf-muted: #D99A4E; }
+    .palette-horta { --pdf-accent: #4A6140; --pdf-muted: #CAA35A; }
+    .palette-manha { --pdf-accent: #C07A38; --pdf-muted: #E0B674; }
+
+    @media print {
+      body { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .hdr { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hdr">
+    <span class="hdr-brand">🥖 Velhos Sabores</span>
+    <span class="hdr-sep">·</span>
+    <span class="hdr-tool">Gerador de eBook de Receita</span>
+  </div>
+
+  <div class="sidebar">
+    <div>
+      <div class="sec-title">Paleta de Cores</div>
+      <div class="pal-grid">
+        <button class="pal-btn sel" data-palette="forno">
+          <div class="pal-swatch">
+            <div class="pal-top" style="background: #B5613A;"></div>
+            <div class="pal-bot" style="background: #6E7A4F;"></div>
+          </div>
+          <span class="pal-name">Forno</span>
+        </button>
+        <button class="pal-btn" data-palette="geleia">
+          <div class="pal-swatch">
+            <div class="pal-top" style="background: #A8324A;"></div>
+            <div class="pal-bot" style="background: #D99A4E;"></div>
+          </div>
+          <span class="pal-name">Geleia</span>
+        </button>
+        <button class="pal-btn" data-palette="horta">
+          <div class="pal-swatch">
+            <div class="pal-top" style="background: #4A6140;"></div>
+            <div class="pal-bot" style="background: #CAA35A;"></div>
+          </div>
+          <span class="pal-name">Horta</span>
+        </button>
+        <button class="pal-btn" data-palette="manha">
+          <div class="pal-swatch">
+            <div class="pal-top" style="background: #C07A38;"></div>
+            <div class="pal-bot" style="background: #E0B674;"></div>
+          </div>
+          <span class="pal-name">Manhã</span>
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">Informações da Receita</div>
+      <div class="fields">
+        <div class="field">
+          <label for="titleInput">Título *</label>
+          <input type="text" id="titleInput" placeholder="ex: Pão de Canela Especial" value="Pão de Canela Especial">
+        </div>
+        <div class="field">
+          <label for="taglineInput">Tagline (subtítulo)</label>
+          <input type="text" id="taglineInput" placeholder="ex: Doce de tarde de domingo" value="Doce de tarde de domingo">
+        </div>
+        <div class="field">
+          <label for="descInput">Descrição</label>
+          <textarea id="descInput" placeholder="Descreva a receita...">Massa macia perfumada com canela em rama moída na hora e um toque de mel. Assado lentamente até a casca caramelizar.</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">Ingredientes</div>
+      <div class="field">
+        <label for="ingredientsInput">Ingredientes (um por linha)</label>
+        <textarea id="ingredientsInput" placeholder="Farinha de trigo&#10;Fermento natural&#10;Canela em rama...">Farinha de trigo
+Fermento natural
+Canela em rama
+Mel
+Manteiga
+Sal marinho</textarea>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">Modo de Preparo</div>
+      <div class="field">
+        <label for="stepsInput">Passos (um por linha)</label>
+        <textarea id="stepsInput" placeholder="Passo 1&#10;Passo 2...">Misture farinha e fermento em uma tigela
+Adicione sal e água morna, deixe descansar 30 min
+Incorpore manteiga e canela moída
+Divida em porções e deixe fermentar 4 horas
+Asse a 200°C por 25 minutos até dourar</textarea>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">Dicas (Opcional)</div>
+      <div class="field">
+        <label for="tipsInput">Dicas especiais</label>
+        <textarea id="tipsInput" placeholder="Dicas úteis para o leitor...">Você pode preparar a massa na véspera e deixar na geladeira. Retire 30 min antes de assar para que alcance a temperatura ambiente. O aroma é parte da experiência!</textarea>
+      </div>
+    </div>
+
+    <button class="dl-btn" id="downloadBtn">📥 Baixar eBook PDF</button>
+  </div>
+
+  <div class="preview">
+    <div id="previewWrap"></div>
+  </div>
+
+  <script>
+    const PALETTES = {
+      forno:  { class: 'palette-forno' },
+      geleia: { class: 'palette-geleia' },
+      horta:  { class: 'palette-horta' },
+      manha:  { class: 'palette-manha' },
+    };
+
+    let currentPalette = 'forno';
+
+    const inputs = {
+      title: document.getElementById('titleInput'),
+      tagline: document.getElementById('taglineInput'),
+      desc: document.getElementById('descInput'),
+      ingredients: document.getElementById('ingredientsInput'),
+      steps: document.getElementById('stepsInput'),
+      tips: document.getElementById('tipsInput'),
+    };
+
+    const previewWrap = document.getElementById('previewWrap');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // Palette buttons
+    document.querySelectorAll('.pal-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pal-btn').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+        currentPalette = btn.dataset.palette;
+        updatePreview();
+      });
+    });
+
+    // Input listeners
+    Object.values(inputs).forEach(input => {
+      input.addEventListener('input', updatePreview);
+    });
+
+    function generatePdfContent() {
+      const title = inputs.title.value || 'Receita Sem Título';
+      const tagline = inputs.tagline.value;
+      const desc = inputs.desc.value;
+      const ingredientsList = inputs.ingredients.value
+        .split('\n')
+        .map(i => i.trim())
+        .filter(i => i);
+      const stepsList = inputs.steps.value
+        .split('\n')
+        .map(s => s.trim())
+        .filter(s => s);
+      const tips = inputs.tips.value;
+
+      let html = `
+        <div class="pdf-page ${PALETTES[currentPalette].class}">
+          <div class="pdf-header">
+            <div class="pdf-brand">Velhos Sabores · Padaria Artesanal</div>
+            <h1 class="pdf-title">${escapeHtml(title)}</h1>
+            ${tagline ? `<p class="pdf-tagline">${escapeHtml(tagline)}</p>` : ''}
+            ${desc ? `<p class="pdf-desc">${escapeHtml(desc)}</p>` : ''}
+          </div>
+
+          ${ingredientsList.length > 0 ? `
+            <div class="pdf-section">
+              <div class="pdf-section-title">Ingredientes</div>
+              <div class="pdf-ingredients">
+                ${ingredientsList.map(ing => `<div class="pdf-ingredient">${escapeHtml(ing)}</div>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          ${stepsList.length > 0 ? `
+            <div class="pdf-section">
+              <div class="pdf-section-title">Modo de Preparo</div>
+              <div class="pdf-steps">
+                ${stepsList.map((step, idx) => `
+                  <div class="pdf-step">
+                    <div class="pdf-step-num">${idx + 1}</div>
+                    <div>${escapeHtml(step)}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          ${tips ? `
+            <div class="pdf-section">
+              <div class="pdf-tips">
+                <strong>💡 Dica:</strong> ${escapeHtml(tips)}
+              </div>
+            </div>
+          ` : ''}
+
+          <div class="pdf-footer">
+            © ${new Date().getFullYear()} Velhos Sabores · Padaria Artesanal<br>
+            Feito com fermento, tempo e memória
+          </div>
+        </div>
+      `;
+
+      return html;
+    }
+
+    function updatePreview() {
+      previewWrap.innerHTML = generatePdfContent();
+    }
+
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, m => map[m]);
+    }
+
+    downloadBtn.addEventListener('click', () => {
+      const title = inputs.title.value || 'receita';
+      const element = previewWrap.querySelector('.pdf-page');
+      const opt = {
+        margin: 0,
+        filename: `${title.toLowerCase().replace(/\s+/g, '-')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, backgroundColor: '#f5f1ed' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    });
+
+    // Initial preview
+    updatePreview();
+  </script>
+</body>
+</html>
