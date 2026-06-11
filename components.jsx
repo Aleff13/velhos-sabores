@@ -146,8 +146,8 @@ function Footer({ go }) {
         </div>
         <div className="vs-footer-col">
           <h4>Ferramentas</h4>
-          <a href="#studio" style={{ cursor: 'pointer' }}>Gerador de Posts</a>
-          <a href="#recipe-studio" style={{ cursor: 'pointer' }}>Gerador de eBooks</a>
+          <a href="instagram-generator.html" target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'none' }}>Gerador de Posts</a>
+          <a href="recipe-ebook-generator.html" target="_blank" rel="noopener" style={{ color: 'inherit', textDecoration: 'none' }}>Gerador de eBooks</a>
         </div>
         <div className="vs-footer-col">
           <h4>A padaria</h4>
