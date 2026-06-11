@@ -29,13 +29,13 @@ function SobrePage({ go }) {
       </section>
 
       {/* Quote */}
-      <section className=”vs-quote”>
-        <div className=”wrap-narrow reveal”>
-          <p className=”vs-quote-text”>
-            “Pão bom não tem segredo. Tem <em className=”serif-accent”>ingredientes de verdade e tempo</em>.
-            O resto é só pressa que estraga o sabor.”
+      <section className="vs-quote">
+        <div className="wrap-narrow reveal">
+          <p className="vs-quote-text">
+            &quot;Pão bom não tem segredo. Tem <em className="serif-accent">ingredientes de verdade e tempo</em>.
+            O resto é só pressa que estraga o sabor.&quot;
           </p>
-          <span className=”vs-quote-by mono”>— a receita da casa</span>
+          <span className="vs-quote-by mono">— a receita da casa</span>
         </div>
       </section>
 
@@ -54,42 +54,6 @@ function SobrePage({ go }) {
                 <p>{s.d}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Production */}
-      <section className="vs-production">
-        <div className="wrap vs-production-grid">
-          <div className="vs-production-copy reveal">
-            <span className="eyebrow">Nossa produção</span>
-            <h2>Pequeno, planejado e fresco.</h2>
-            <p>
-              Percebemos que muitos clientes buscavam algo diferente da produção em larga escala: produtos artesanais, frescos e feitos com atenção aos detalhes.
-            </p>
-            <p>
-              Por isso, trabalhamos com uma produção mais enxuta e planejada, garantindo qualidade em cada fornada.
-            </p>
-            <div className="vs-production-schedule">
-              <div className="vs-schedule-item">
-                <span className="vs-schedule-label">Fornadas</span>
-                <span className="vs-schedule-value">segundas e quintas-feiras</span>
-              </div>
-              <div className="vs-schedule-item">
-                <span className="vs-schedule-label">Retirada</span>
-                <span className="vs-schedule-value">no dia seguinte à produção</span>
-              </div>
-              <div className="vs-schedule-item">
-                <span className="vs-schedule-label">Modelo</span>
-                <span className="vs-schedule-value">produção sob demanda</span>
-              </div>
-            </div>
-            <p style={{ fontSize: '.95em', color: 'var(--muted)', marginTop: '12px' }}>
-              Esse modelo permite que cada cliente receba seus produtos sempre frescos, ao mesmo tempo em que se adapta à rotina corrida do dia a dia.
-            </p>
-          </div>
-          <div className="vs-production-art reveal">
-            <Ph label="foto · processo de produção" src="https://images.unsplash.com/photo-1577003833154-a92bbd4c4fe0?w=700&q=80&auto=format&fit=crop" className="vs-production-img" />
           </div>
         </div>
       </section>

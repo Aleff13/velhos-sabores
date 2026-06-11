@@ -233,15 +233,6 @@
 .vs-step h3 { font-size: 1.18rem; margin-bottom: 8px; }
 .vs-step p { color: var(--ink-soft); font-size: 0.95rem; }
 
-.vs-production { padding: 78px 0; background: var(--surface); }
-.vs-production-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 56px; align-items: center; }
-.vs-production-img { aspect-ratio: 4/3; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 30px 60px -42px var(--shadow); }
-.vs-production-copy h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin: 14px 0 22px; }
-.vs-production-schedule { display: grid; grid-template-columns: 1fr; gap: 18px; margin: 28px 0; padding: 24px; background: var(--surface-2); border-radius: 14px; border: 1px solid var(--line); }
-.vs-schedule-item { display: flex; flex-direction: column; gap: 4px; }
-.vs-schedule-label { font-family: 'Bricolage Grotesque'; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); font-weight: 600; }
-.vs-schedule-value { font-size: 1.08rem; color: var(--ink); }
-
 .vs-manifesto { padding: 78px 0; }
 .vs-manifesto-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 56px; align-items: center; }
 .vs-manifesto-img { aspect-ratio: 4/3; border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 30px 60px -42px var(--shadow); }
@@ -312,7 +303,7 @@
   .vs-nav-mobile .vs-nav-link { text-align: left; font-size: 1.1rem; }
 
   .vs-hero-grid, .vs-proposta-grid, .vs-product-identity, .vs-product.rev .vs-product-identity,
-  .vs-sobre-hero-grid, .vs-manifesto-grid, .vs-production-grid { grid-template-columns: 1fr; gap: 36px; }
+  .vs-sobre-hero-grid, .vs-manifesto-grid { grid-template-columns: 1fr; gap: 36px; }
   .vs-product.rev .vs-product-art { order: 0; }
   .vs-values-grid, .vs-preview-grid, .vs-process-grid { grid-template-columns: repeat(2, 1fr); }
   .vs-proposta-art { height: 380px; }
