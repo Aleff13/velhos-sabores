@@ -25,6 +25,26 @@ function App() {
     return STUDIO_ROUTES[hash] ? hash : 'home';
   });
   const [focusId, setFocusId] = useS(null);
+  const [quantities, setQuantities] = useS({
+    canela: 0,
+    caseiro: 0,
+    integral: 0,
+    graos: 0,
+  });
+  const [sidebarOpen, setSidebarOpen] = useS(false);
+
+  const updateQuantity = (id, value) => {
+    setQuantities({ ...quantities, [id]: Math.max(0, parseInt(value) || 0) });
+  };
+
+  const addToCart = (id) => {
+    setQuantities({ ...quantities, [id]: quantities[id] + 1 });
+    setSidebarOpen(true);
+  };
+
+  const clearCart = () => {
+    setQuantities({ canela: 0, caseiro: 0, integral: 0, graos: 0 });
+  };
 
   // apply palette + grain to <html>
   useE(() => {
@@ -52,10 +72,12 @@ function App() {
   return (
     <React.Fragment>
       <Nav page={page} go={go} />
+      <CartSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} quantities={quantities} updateQuantity={updateQuantity} onCheckout={() => { go('carrinho'); setSidebarOpen(false); }} clearCart={clearCart} />
       <div key={page} className="vs-page-fade">
         {page === 'home' && <HomePage go={go} />}
-        {page === 'produtos' && <ProdutosPage go={go} focusId={focusId} />}
+        {page === 'produtos' && <ProdutosPage go={go} focusId={focusId} addToCart={addToCart} />}
         {page === 'sobre' && <SobrePage go={go} />}
+        {page === 'carrinho' && <CartPage go={go} quantities={quantities} updateQuantity={updateQuantity} clearCart={clearCart} />}
       </div>
       <Footer go={go} />
       <WhatsAppFab />

@@ -94,6 +94,7 @@ function Nav({ page, go }) {
     { id: 'home', label: 'Início' },
     { id: 'produtos', label: 'Nossos pães' },
     { id: 'sobre', label: 'A história' },
+    { id: 'carrinho', label: 'Meu Carrinho' }
   ];
   const nav = (id) => { go(id); setOpen(false); };
   return (
@@ -107,9 +108,9 @@ function Nav({ page, go }) {
             </button>
           ))}
         </nav>
-        <a className="btn btn-primary vs-nav-cta" href={waLink()} target="_blank" rel="noopener">
+        <button className="btn btn-primary vs-nav-cta" onClick={() => nav('carrinho')}>
           <Icon name="wa" size={17} /> Fazer pedido
-        </a>
+        </button>
         <button className="vs-burger" aria-label="Menu" onClick={() => setOpen(o => !o)}>
           <span /><span /><span />
         </button>
@@ -140,6 +141,7 @@ function Footer({ go }) {
           <h4>Navegar</h4>
           <button onClick={() => go('home')}>Início</button>
           <button onClick={() => go('produtos')}>Nossos pães</button>
+          <button onClick={() => go('carrinho')}>Meu Carrinho</button>
           <button onClick={() => go('sobre')}>A história</button>
         </div>
         <div className="vs-footer-col">
@@ -189,4 +191,71 @@ function WhatsAppFab() {
   );
 }
 
-Object.assign(window, { Icon, Ph, useReveal, Brand, Nav, Footer, WhatsAppFab, waLink, WHATSAPP_NUMBER });
+/* ---------- Cart Sidebar ---------- */
+function CartSidebar({ open, onClose, quantities, updateQuantity, onCheckout, clearCart }) {
+  const hasItems = Object.values(quantities).some(q => q > 0);
+  const totalItems = Object.values(quantities).reduce((a, b) => a + b, 0);
+
+  return (
+    <>
+      {open && <div className="vs-cart-overlay" onClick={onClose} />}
+      <div className={`vs-cart-sidebar ${open ? 'open' : ''}`}>
+        <div className="vs-cart-sidebar-header">
+          <h3>Meu Carrinho</h3>
+          <button className="vs-cart-close" onClick={onClose} aria-label="Fechar carrinho">
+            <Icon name="x" size={24} />
+          </button>
+        </div>
+
+        <div className="vs-cart-sidebar-body">
+          {hasItems ? (
+            <div className="vs-sidebar-items">
+              {VS_PRODUCTS.map((p) => {
+                const qty = quantities[p.id];
+                if (qty === 0) return null;
+                return (
+                  <div key={p.id} className="vs-sidebar-item">
+                    <div className="vs-sidebar-item-info">
+                      <strong>{p.nome}</strong>
+                      <span className="vs-item-price">{qty}x</span>
+                    </div>
+                    <div className="vs-sidebar-qty">
+                      <button onClick={() => updateQuantity(p.id, qty - 1)} className="vs-qty-mini">−</button>
+                      <span>{qty}</span>
+                      <button onClick={() => updateQuantity(p.id, qty + 1)} className="vs-qty-mini">+</button>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="vs-sidebar-total">
+                <strong>Total: {totalItems} {totalItems === 1 ? 'item' : 'itens'}</strong>
+              </div>
+            </div>
+          ) : (
+            <p className="vs-sidebar-empty">Seu carrinho está vazio</p>
+          )}
+        </div>
+
+        <div className="vs-cart-sidebar-footer">
+          {hasItems && (
+            <>
+              <button className="btn btn-primary" onClick={onCheckout} style={{ width: '100%' }}>
+                <Icon name="arrow" size={16} /> Finalizar Pedido
+              </button>
+              <button className="btn btn-ghost" onClick={clearCart} style={{ width: '100%', marginTop: '8px' }}>
+                Limpar Carrinho
+              </button>
+            </>
+          )}
+          {!hasItems && (
+            <p style={{ textAlign: 'center', fontSize: '0.9rem', color: 'var(--ink-soft)' }}>
+              Adicione pães ao carrinho para começar
+            </p>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+Object.assign(window, { Icon, Ph, useReveal, Brand, Nav, Footer, WhatsAppFab, CartSidebar, waLink, WHATSAPP_NUMBER });

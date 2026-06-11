@@ -28,7 +28,7 @@ function ComparePanel({ p }) {
   );
 }
 
-function ProductBlock({ p, index, reverse }) {
+function ProductBlock({ p, index, reverse, addToCart }) {
   return (
     <article className={`vs-product reveal ${reverse ? 'rev' : ''}`} id={`prod-${p.id}`}>
       <div className="vs-product-identity">
@@ -47,9 +47,14 @@ function ProductBlock({ p, index, reverse }) {
               {p.ingredientes.map(ing => <span className="vs-chip" key={ing}>{ing}</span>)}
             </div>
           </div>
-          <a className="btn btn-primary" href={waLink(`Olá! Gostaria de encomendar o ${p.nome} da Velhos Sabores.`)} target="_blank" rel="noopener">
-            <Icon name="wa" size={18} /> Encomendar este pão
-          </a>
+          <div className="vs-product-ctas">
+            <button className="btn btn-primary" onClick={() => addToCart(p.id)}>
+              <Icon name="heart" size={18} /> Adicionar ao Carrinho
+            </button>
+            <a className="btn btn-ghost" href={waLink(`Olá! Gostaria de encomendar o ${p.nome} da Velhos Sabores.`)} target="_blank" rel="noopener">
+              <Icon name="wa" size={18} /> Encomendar
+            </a>
+          </div>
         </div>
       </div>
       <ComparePanel p={p} />
@@ -57,7 +62,7 @@ function ProductBlock({ p, index, reverse }) {
   );
 }
 
-function ProdutosPage({ go, focusId }) {
+function ProdutosPage({ go, focusId, addToCart }) {
   useReveal();
   useEffect(() => {
     if (focusId) {
@@ -91,7 +96,7 @@ function ProdutosPage({ go, focusId }) {
       <section className="vs-prod-list">
         <div className="wrap">
           {VS_PRODUCTS.map((p, i) => (
-            <ProductBlock key={p.id} p={p} index={i} reverse={i % 2 === 1} />
+            <ProductBlock key={p.id} p={p} index={i} reverse={i % 2 === 1} addToCart={addToCart} />
           ))}
         </div>
       </section>
