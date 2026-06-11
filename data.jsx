@@ -7,10 +7,10 @@ const VS_PRODUCTS = [
     nome: 'Pão de Canela',
     tagline: 'Doce de tarde de domingo',
     descricao:
-      'Massa macia perfumada com canela em rama moída na hora e um toque de mel. Assado lentamente até a casca caramelizar.',
+      'Uma massa doce e macia, enriquecida com uma generosa pasta de canela artesanal em seu interior. O resultado é um pão aromático, equilibrado e cheio de personalidade, transformando cada fatia em uma experiência especial.',
     label: 'foto · pão de canela fatiado',
-    selo: 'Fermentação lenta',
-    ingredientes: ['Farinha de trigo', 'Fermento natural', 'Canela em rama', 'Mel', 'Manteiga', 'Sal marinho'],
+    selo: 'Recheio artesanal de canela',
+    ingredientes: ['Farinha de trigo', 'Canela em rama', 'Mel', 'Manteiga', 'Sal marinho'],
     artesanal: {
       ingredientes: '6 ingredientes que você reconhece',
       conservantes: 'Nenhum',
@@ -30,9 +30,9 @@ const VS_PRODUCTS = [
     nome: 'Pão Integral',
     tagline: 'O de todo dia, do jeito certo',
     descricao:
-      'Farinha integral moída em pedra, sem refino. Encorpado, com sabor de trigo de verdade e aquela casca rústica.',
+      'Uma alternativa equilibrada para quem busca uma alimentação mais consciente, sem abrir mão do sabor. Produzido com 50% de farinha integral, nosso pão integral é desenvolvido para mostrar que alimentação saudável pode ser extremamente saborosa.',
     label: 'foto · pão integral inteiro',
-    selo: 'Farinha moída em pedra',
+    selo: 'Produção artesanal',
     ingredientes: ['Farinha integral', 'Fermento natural', 'Água', 'Sal marinho'],
     artesanal: {
       ingredientes: '4 ingredientes, farinha 100% integral',
@@ -53,10 +53,10 @@ const VS_PRODUCTS = [
     nome: 'Integral · 4 Grãos & Passas',
     tagline: 'O mais cheio de história',
     descricao:
-      'Linhaça, aveia, girassol e gergelim com passas suculentas. Cada fatia tem textura, doçura natural e crocância.',
+      'Nossa versão mais completa e nutritiva. Combina a leveza da massa integral com uma seleção especial de sementes e o toque naturalmente adocicado das uvas-passas. O resultado é um pão rico em textura, sabor e nutrientes, ideal para quem valoriza uma alimentação equilibrada.',
     label: 'foto · fatia com grãos e passas',
-    selo: 'Grãos e sementes inteiros',
-    ingredientes: ['Farinha integral', 'Linhaça', 'Aveia', 'Girassol', 'Gergelim', 'Passas', 'Fermento natural'],
+    selo: 'Mix de sementes selecionadas',
+    ingredientes: ['Farinha integral', 'Linhaça marrom', 'Aveia', 'Girassol', 'Gergelim', 'Uvas-passas', 'Fermento natural'],
     artesanal: {
       ingredientes: 'Grãos inteiros e passas de verdade',
       conservantes: 'Nenhum',
@@ -76,9 +76,9 @@ const VS_PRODUCTS = [
     nome: 'Pão Caseiro',
     tagline: 'A memória do café da manhã',
     descricao:
-      'O pão da casa: miolo fofo, casca dourada e cheiro que toma a cozinha. Como o da sua avó fazia — porque é assim que se faz.',
+      'O clássico que atravessa gerações. Inspirado nas receitas transmitidas entre famílias ao longo do tempo, nosso pão caseiro representa a essência da memória afetiva. Produzido com calma, carinho e respeito ao processo artesanal, é aquele pão que traz conforto e sabor para qualquer momento do dia.',
     label: 'foto · pão caseiro dourado',
-    selo: 'Receita de família',
+    selo: 'Receita tradicional',
     ingredientes: ['Farinha de trigo', 'Fermento natural', 'Leite', 'Ovos', 'Manteiga', 'Sal'],
     artesanal: {
       ingredientes: 'Leite, ovos e manteiga de verdade',

@@ -2,7 +2,7 @@
 function HomePage({ go }) {
   useReveal();
   const values = [
-    { icon: 'wheat', t: 'Fermentação natural', d: 'Massa madre cultivada na casa, sem fermento químico.' },
+    { icon: 'wheat', t: 'Feito à mão', d: 'Cada pão é moldado manualmente na nossa padaria.' },
     { icon: 'leaf', t: 'Sem conservantes', d: 'Só ingredientes que você reconhece e pronuncia.' },
     { icon: 'clock', t: 'Tempo de verdade', d: 'Até 24h de descanso. Pressa é inimiga do sabor.' },
     { icon: 'heart', t: 'Receita de família', d: 'O mesmo caderno de receitas, geração após geração.' },
@@ -18,7 +18,7 @@ function HomePage({ go }) {
               O pão que tem<br /><em className="serif-accent">cheiro de casa.</em>
             </h1>
             <p className="vs-hero-lead reveal">
-              Na Velhos Sabores a gente não acelera o tempo. Fermentação natural, farinha de verdade
+              Na Velhos Sabores a gente não acelera o tempo. Farinha de verdade, trabalho feito à mão
               e o forno quente de cedo — para que cada fatia traga de volta a memória da cozinha da família.
             </p>
             <div className="vs-hero-cta reveal">
@@ -31,7 +31,7 @@ function HomePage({ go }) {
             </div>
             <div className="vs-hero-meta reveal">
               <span className="badge ok"><Icon name="check" size={14} /> Sem conservantes</span>
-              <span className="badge ok"><Icon name="check" size={14} /> Fermento natural</span>
+              <span className="badge ok"><Icon name="check" size={14} /> Feito à mão</span>
               <span className="badge ok"><Icon name="check" size={14} /> Assado no dia</span>
             </div>
           </div>
@@ -71,15 +71,13 @@ function HomePage({ go }) {
             <Ph label="foto · interior da padaria" src="https://images.unsplash.com/photo-1536782896453-61d09f3aaf3e?w=600&q=80&auto=format&fit=crop" className="vs-proposta-img b" />
           </div>
           <div className="vs-proposta-copy reveal">
-            <span className="eyebrow">Nossa proposta</span>
-            <h2>Comida que se faz devagar é comida que se lembra.</h2>
+            <span className="eyebrow">Nosso compromisso</span>
+            <h2>Pão bom não tem segredo. Tem tempo.</h2>
             <p>
-              A gente cresceu vendo o pão crescer na bancada. Hoje a Velhos Sabores existe para uma
-              coisa só: provar que pão de verdade não precisa de lista de aditivos para durar na memória.
+              Na Velhos Sabores, acreditamos que um bom pão vai muito além dos ingredientes. Ele carrega história, dedicação e a tradição de fazer tudo com tempo, cuidado e propósito.
             </p>
             <p>
-              Cada pão sai com poucos ingredientes, casca rústica e aquele miolo que conta uma história.
-              É o oposto do que vem embalado na prateleira — e a diferença você sente na primeira mordida.
+              Cada fornada é preparada para proporcionar uma experiência autêntica, valorizando a qualidade artesanal e os sabores que permanecem na memória. Porque pão feito devagar é pão que se lembra.
             </p>
             <button className="btn btn-ghost" onClick={() => go('sobre')}>
               Conhecer a história <Icon name="arrow" size={18} />
