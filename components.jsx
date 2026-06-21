@@ -70,7 +70,7 @@ function Brand({ onClick, compact }) {
   return (
     <button onClick={onClick} className="vs-brand" aria-label="Velhos Sabores — início">
       <span className="vs-brand-mark">
-        <img src="assets/logo.png" alt="Velhos Sabores" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} />
+        <img src="assets/logo.webp" alt="Velhos Sabores" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} />
       </span>
       <span className="vs-brand-text">
         <span className="vs-brand-name">Velhos Sabores</span>

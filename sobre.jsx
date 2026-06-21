@@ -23,7 +23,7 @@ function SobrePage({ go }) {
             </p>
           </div>
           <div className="vs-sobre-hero-art reveal">
-            <Ph label="foto · retrato da família / fundadores" src="assets/products/abrindo massa integral.jpeg" className="vs-sobre-portrait" />
+            <Ph label="foto · retrato da família / fundadores" src="assets/products/abrindo%20massa%20integral.jpeg" className="vs-sobre-portrait" />
           </div>
         </div>
       </section>

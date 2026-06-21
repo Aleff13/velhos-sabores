@@ -1,0 +1,96 @@
+{
+  "http://localhost:8732/styles.css": {
+    "size": 8032,
+    "ttfb_ms": 2.899,
+    "total_ms": 2.953
+  },
+  "http://localhost:8732/ui.css": {
+    "size": 28159,
+    "ttfb_ms": 0.71,
+    "total_ms": 0.747
+  },
+  "https://unpkg.com/react@18.3.1/umd/react.production.min.js": {
+    "size": 4263,
+    "ttfb_ms": 74.02799999999999,
+    "total_ms": 74.161
+  },
+  "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": {
+    "size": 42882,
+    "ttfb_ms": 84.809,
+    "total_ms": 87.07600000000001
+  },
+  "https://unpkg.com/@babel/standalone@7.29.0/babel.min.js": {
+    "size": 653879,
+    "ttfb_ms": 184.361,
+    "total_ms": 291.554
+  },
+  "http://localhost:8732/tweaks-panel.jsx": {
+    "size": 24657,
+    "ttfb_ms": 1.204,
+    "total_ms": 1.288
+  },
+  "http://localhost:8732/data.jsx": {
+    "size": 4796,
+    "ttfb_ms": 1.811,
+    "total_ms": 1.9020000000000001
+  },
+  "http://localhost:8732/components.jsx": {
+    "size": 11148,
+    "ttfb_ms": 0.767,
+    "total_ms": 0.808
+  },
+  "http://localhost:8732/home.jsx": {
+    "size": 6499,
+    "ttfb_ms": 0.728,
+    "total_ms": 0.762
+  },
+  "http://localhost:8732/produtos.jsx": {
+    "size": 4886,
+    "ttfb_ms": 0.584,
+    "total_ms": 0.618
+  },
+  "http://localhost:8732/sobre.jsx": {
+    "size": 5254,
+    "ttfb_ms": 0.525,
+    "total_ms": 0.558
+  },
+  "http://localhost:8732/cart.jsx": {
+    "size": 6856,
+    "ttfb_ms": 0.5670000000000001,
+    "total_ms": 0.5950000000000001
+  },
+  "http://localhost:8732/app.jsx": {
+    "size": 3239,
+    "ttfb_ms": 0.5599999999999999,
+    "total_ms": 0.587
+  },
+  "http://localhost:8732/assets/logo.webp": {
+    "size": 163044,
+    "ttfb_ms": 0.472,
+    "total_ms": 0.5519999999999999
+  },
+  "http://localhost:8732/assets/products/abrindo%20massa%20integral.jpeg": {
+    "size": 105888,
+    "ttfb_ms": 0.599,
+    "total_ms": 1.588
+  },
+  "http://localhost:8732/assets/products/paes%20prontos.jpeg": {
+    "size": 187724,
+    "ttfb_ms": 0.594,
+    "total_ms": 0.716
+  },
+  "http://localhost:8732/assets/products/faznedo%20massa.jpeg": {
+    "size": 160117,
+    "ttfb_ms": 0.545,
+    "total_ms": 0.63
+  },
+  "http://localhost:8732/assets/products/paes%20cortados%20na%20bancada.jpeg": {
+    "size": 182942,
+    "ttfb_ms": 0.5109999999999999,
+    "total_ms": 0.601
+  },
+  "__total__": {
+    "size": 1604265
+  },
+  "__ts__": "2026-06-21 17:14:25"
+}
