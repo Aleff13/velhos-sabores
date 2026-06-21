@@ -60,43 +60,42 @@ function CartPage({ go }) {
             <div className="vs-cart-products">
               <h2>Nossos pães</h2>
               <div className="vs-cart-grid">
-                {VS_PRODUCTS.map((p) => (
-                  <div className="vs-cart-item reveal" key={p.id}>
-                    <div className="vs-cart-item-img">
-                      <Ph label={p.label} src={p.img} />
-                    </div>
-                    <div className="vs-cart-item-body">
-                      <h3>{p.nome}</h3>
-                      <p className="vs-cart-tagline">{p.tagline}</p>
-                      <p className="vs-cart-desc">{p.descricao}</p>
-                      <div className="vs-cart-qty">
-                        <label>Quantidade</label>
-                        <div className="vs-qty-control">
-                          <button
-                            className="vs-qty-btn"
-                            onClick={() => updateQuantity(p.id, quantities[p.id] - 1)}
-                            disabled={quantities[p.id] === 0}
-                          >
-                            −
-                          </button>
-                          <input
-                            type="number"
-                            min="0"
-                            value={quantities[p.id]}
-                            onChange={(e) => updateQuantity(p.id, e.target.value)}
-                            className="vs-qty-input"
-                          />
-                          <button
-                            className="vs-qty-btn"
-                            onClick={() => updateQuantity(p.id, quantities[p.id] + 1)}
-                          >
-                            +
-                          </button>
+                {VS_PRODUCTS.map((p) => {
+                  const qty = quantities[p.id];
+                  return (
+                    <div className={`vs-cart-item reveal${qty > 0 ? ' vs-cart-item--active' : ''}`} key={p.id}>
+                      <div className="vs-cart-item-img">
+                        <Ph label={p.label} src={p.img} />
+                        {qty > 0 && (
+                          <span className="vs-cart-item-badge">{qty}</span>
+                        )}
+                      </div>
+                      <div className="vs-cart-item-body">
+                        <span className="badge ok"><Icon name="leaf" size={13} /> {p.selo}</span>
+                        <h3>{p.nome}</h3>
+                        <p className="vs-cart-tagline">{p.tagline}</p>
+                        <div className="vs-cart-qty">
+                          <div className="vs-qty-control">
+                            <button
+                              className="vs-qty-btn"
+                              onClick={() => updateQuantity(p.id, qty - 1)}
+                              disabled={qty === 0}
+                            >
+                              −
+                            </button>
+                            <span className="vs-qty-display">{qty}</span>
+                            <button
+                              className="vs-qty-btn"
+                              onClick={() => updateQuantity(p.id, qty + 1)}
+                            >
+                              +
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

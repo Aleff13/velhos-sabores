@@ -310,19 +310,51 @@
 .vs-cart-section { padding: 60px 0; }
 .vs-cart-layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
 .vs-cart-products h2 { font-size: 1.6rem; margin-bottom: 28px; }
-.vs-cart-grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
-.vs-cart-item { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; grid-template-columns: 160px 1fr; }
-.vs-cart-item-img { aspect-ratio: 1; overflow: hidden; }
-.vs-cart-item-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
-.vs-cart-item h3 { font-size: 1.2rem; margin: 0; }
-.vs-cart-tagline { font-size: 0.95rem; color: var(--primary); margin: 0; }
-.vs-cart-desc { font-size: 0.9rem; color: var(--ink-soft); line-height: 1.5; margin: 4px 0 0; }
-.vs-cart-qty { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-.vs-cart-qty label { font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
-.vs-qty-control { display: flex; align-items: center; gap: 8px; }
-.vs-qty-btn { background: var(--surface-2); border: 1px solid var(--line); width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; color: var(--ink); transition: background .2s, border-color .2s; }
-.vs-qty-btn:hover:not(:disabled) { background: var(--paper); border-color: var(--primary); }
-.vs-qty-btn:disabled { opacity: .4; cursor: not-allowed; }
+.vs-cart-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+
+/* Card vertical com imagem em destaque */
+.vs-cart-item {
+  background: var(--surface); border: 1.5px solid var(--line); border-radius: 22px;
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s;
+}
+.vs-cart-item:hover { transform: translateY(-5px); box-shadow: 0 28px 48px -30px var(--shadow); border-color: color-mix(in oklab, var(--primary) 35%, var(--line)); }
+.vs-cart-item--active { border-color: color-mix(in oklab, var(--primary) 50%, var(--line)); box-shadow: 0 8px 24px -14px color-mix(in oklab, var(--primary) 30%, transparent); }
+
+.vs-cart-item-img { aspect-ratio: 4/3; overflow: hidden; position: relative; flex-shrink: 0; }
+.vs-cart-item-img .ph,
+.vs-cart-item-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.vs-cart-item:hover .vs-cart-item-img img,
+.vs-cart-item:hover .vs-cart-item-img .ph { transform: scale(1.04); }
+
+/* Badge de quantidade flutuante */
+.vs-cart-item-badge {
+  position: absolute; top: 12px; right: 12px; z-index: 2;
+  min-width: 28px; height: 28px; padding: 0 8px;
+  background: var(--primary); color: #fff;
+  border-radius: 999px; font-size: 0.82rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px -4px var(--primary);
+  animation: vsCartBadge .25s cubic-bezier(.2,.9,.3,1.3);
+}
+@keyframes vsCartBadge { from { transform: scale(.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.vs-cart-item-body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.vs-cart-item h3 { font-size: 1.14rem; margin: 0; line-height: 1.15; }
+.vs-cart-tagline { font-size: 0.88rem; color: var(--primary); font-style: italic; margin: 0; font-weight: 500; }
+.vs-cart-desc { font-size: 0.88rem; color: var(--ink-soft); line-height: 1.5; margin: 0; display: none; }
+
+/* Controle de quantidade */
+.vs-cart-qty { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line-soft); }
+.vs-qty-control { display: flex; align-items: center; gap: 0; background: var(--paper-2); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; width: fit-content; }
+.vs-qty-btn {
+  background: transparent; border: 0; width: 38px; height: 38px;
+  cursor: pointer; font-size: 1.3rem; color: var(--ink); font-weight: 400;
+  transition: background .18s, color .18s; line-height: 1; display: flex; align-items: center; justify-content: center;
+}
+.vs-qty-btn:hover:not(:disabled) { background: var(--surface-2); color: var(--primary); }
+.vs-qty-btn:disabled { opacity: .35; cursor: not-allowed; }
+.vs-qty-display { min-width: 36px; text-align: center; font-size: 1rem; font-weight: 700; color: var(--ink); font-family: 'Bricolage Grotesque', sans-serif; }
 .vs-qty-input { width: 50px; text-align: center; border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; font-size: 0.95rem; }
 
 .vs-cart-summary { position: sticky; top: 100px; }
@@ -374,6 +406,7 @@
   .vs-values-grid, .vs-preview-grid, .vs-process-grid { grid-template-columns: repeat(2, 1fr); }
   .vs-cart-layout { grid-template-columns: 1fr; gap: 32px; }
   .vs-cart-summary { position: static; }
+  .vs-cart-grid { grid-template-columns: repeat(2, 1fr); }
   .vs-proposta-art { height: 380px; }
   .vs-footer-grid { grid-template-columns: 1fr 1fr; }
   .vs-footer-brand { grid-column: 1 / -1; }
@@ -383,6 +416,7 @@
   .vs-cart-sidebar { width: 100%; }
   .vs-hero { padding: 110px 0 50px; }
   .vs-values-grid, .vs-preview-grid, .vs-process-grid { grid-template-columns: 1fr; }
+  .vs-cart-grid { grid-template-columns: 1fr; }
   .vs-compare-head, .vs-compare-row { grid-template-columns: 1fr; }
   .vs-compare-col.label { background: color-mix(in oklab, var(--ink) 5%, var(--surface)); padding-block: 10px; font-size: 0.72rem; }
   .vs-compare-row { border-top: 4px solid var(--paper-2); }
