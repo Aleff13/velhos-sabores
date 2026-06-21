@@ -4,7 +4,7 @@ function HomePage({ go }) {
   const values = [
     { icon: 'wheat', t: 'Feito à mão', d: 'Cada pão é moldado manualmente na nossa padaria.' },
     { icon: 'leaf', t: 'Sem conservantes', d: 'Só ingredientes que você reconhece e pronuncia.' },
-    { icon: 'clock', t: 'Tempo de verdade', d: 'Até 24h de descanso. Pressa é inimiga do sabor.' },
+    { icon: 'clock', t: 'Tempo de verdade', d: 'Até 6h de descanso. Pressa é inimiga do sabor.' },
     { icon: 'heart', t: 'Receita de família', d: 'O mesmo caderno de receitas, geração após geração.' },
   ];
   return (
@@ -43,8 +43,7 @@ function HomePage({ go }) {
               <span>feito<br />à mão</span>
             </div>
             <div className="vs-hero-note">
-              <strong>+24h</strong>
-              <span>de fermentação<br />natural</span>
+              <strong>Feito com amor</strong>
             </div>
           </div>
         </div>
@@ -68,7 +67,6 @@ function HomePage({ go }) {
         <div className="wrap vs-proposta-grid">
           <div className="vs-proposta-art reveal">
             <Ph label="foto · fazendo a massa" src="assets/products/faznedo%20massa.jpeg" className="vs-proposta-img a" />
-            <Ph label="foto · pães cortados na bancada" src="assets/products/paes%20cortados%20na%20bancada.jpeg" className="vs-proposta-img b" />
           </div>
           <div className="vs-proposta-copy reveal">
             <span className="eyebrow">Nosso compromisso</span>

@@ -10,7 +10,7 @@ const VS_PRODUCTS = [
       'Uma massa doce e macia, enriquecida com uma generosa pasta de canela artesanal em seu interior. O resultado é um pão aromático, equilibrado e cheio de personalidade, transformando cada fatia em uma experiência especial.',
     label: 'foto · pão de canela cortado',
     selo: 'Recheio artesanal de canela',
-    ingredientes: ['Farinha de trigo', 'Canela em rama', 'Mel', 'Manteiga', 'Sal marinho'],
+    ingredientes: ['Farinha de trigo', 'Canela', '', 'Manteiga', 'Sal'],
     artesanal: {
       ingredientes: '6 ingredientes que você reconhece',
       conservantes: 'Nenhum',
@@ -33,7 +33,7 @@ const VS_PRODUCTS = [
       'Uma alternativa equilibrada para quem busca uma alimentação mais consciente, sem abrir mão do sabor. Produzido com 50% de farinha integral, nosso pão integral é desenvolvido para mostrar que alimentação saudável pode ser extremamente saborosa.',
     label: 'foto · pão integral',
     selo: 'Produção artesanal',
-    ingredientes: ['Farinha integral', 'Fermento natural', 'Água', 'Sal marinho'],
+    ingredientes: ['Farinha integral', 'Fermento biológico', 'Água', 'Sal'],
     artesanal: {
       ingredientes: '4 ingredientes, farinha 100% integral',
       conservantes: 'Nenhum',
@@ -56,7 +56,7 @@ const VS_PRODUCTS = [
       'Nossa versão mais completa e nutritiva. Combina a leveza da massa integral com uma seleção especial de sementes e o toque naturalmente adocicado das uvas-passas. O resultado é um pão rico em textura, sabor e nutrientes, ideal para quem valoriza uma alimentação equilibrada.',
     label: 'foto · pão 4 grãos aberto',
     selo: 'Mix de sementes selecionadas',
-    ingredientes: ['Farinha integral', 'Linhaça marrom', 'Aveia', 'Girassol', 'Gergelim', 'Uvas-passas', 'Fermento natural'],
+    ingredientes: ['Farinha integral', 'Linhaça marrom', '', 'Girassol', 'Gergelim', 'Uvas-passas', 'Fermento biológico'],
     artesanal: {
       ingredientes: 'Grãos inteiros e passas de verdade',
       conservantes: 'Nenhum',
@@ -79,7 +79,7 @@ const VS_PRODUCTS = [
       'O clássico que atravessa gerações. Inspirado nas receitas transmitidas entre famílias ao longo do tempo, nosso pão caseiro representa a essência da memória afetiva. Produzido com calma, carinho e respeito ao processo artesanal, é aquele pão que traz conforto e sabor para qualquer momento do dia.',
     label: 'foto · pão caseiro',
     selo: 'Receita tradicional',
-    ingredientes: ['Farinha de trigo', 'Fermento natural', 'Leite', 'Ovos', 'Manteiga', 'Sal'],
+    ingredientes: ['Farinha de trigo', 'Fermento biológico', 'Leite', 'Ovos', 'Manteiga', 'Sal'],
     artesanal: {
       ingredientes: 'Leite, ovos e manteiga de verdade',
       conservantes: 'Nenhum',

@@ -23,7 +23,7 @@ function SobrePage({ go }) {
             </p>
           </div>
           <div className="vs-sobre-hero-art reveal">
-            <Ph label="foto · retrato da família / fundadores" src="assets/products/abrindo%20massa%20integral.jpeg" className="vs-sobre-portrait" />
+            <Ph label="foto · Gabriel Velho, fundador" src="assets/baker.png" className="vs-sobre-portrait" />
           </div>
         </div>
       </section>
@@ -62,7 +62,7 @@ function SobrePage({ go }) {
       <section className="vs-manifesto">
         <div className="wrap vs-manifesto-grid">
           <div className="vs-manifesto-art reveal">
-            <Ph label="foto · prateleira de pães na padaria" src="https://images.unsplash.com/photo-1536782896453-61d09f3aaf3e?w=800&q=80&auto=format&fit=crop" className="vs-manifesto-img" />
+            <Ph label="foto · ingredientes artesanais" src="assets/products/ingredientes.jpeg" className="vs-manifesto-img" />
           </div>
           <div className="vs-manifesto-copy reveal">
             <span className="eyebrow">No que acreditamos</span>

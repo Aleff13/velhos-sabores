@@ -134,7 +134,7 @@ function Footer({ go }) {
       <div className="wrap vs-footer-grid">
         <div className="vs-footer-brand">
           <Brand onClick={() => go('home')} />
-          <p>Pão de verdade, feito devagar. Fermentação natural, ingredientes que você reconhece e o cheiro de forno que traz a casa de volta.</p>
+          <p>Pão de verdade, feito devagar. Fermento biológico, ingredientes que você reconhece e o cheiro de forno que traz a casa de volta.</p>
           <a className="btn btn-primary" href={waLink()} target="_blank" rel="noopener"><Icon name="wa" size={17} /> Pedir pelo WhatsApp</a>
         </div>
         <div className="vs-footer-col">
@@ -151,8 +151,6 @@ function Footer({ go }) {
         </div>
         <div className="vs-footer-col">
           <h4>A padaria</h4>
-          <span>Ter — Sáb · 7h às 19h</span>
-          <span>Domingo · 7h às 13h</span>
           <span>Encomendas pelo WhatsApp</span>
           <span className="mono">(48) 98497-1362</span>
         </div>
